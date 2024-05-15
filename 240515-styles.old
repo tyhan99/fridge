@@ -1,0 +1,103 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set up mobile-first responsive design */
+body {
+    font-family: Verdana, Geneva, Tahoma, Calibri, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+
+/* Default background image */
+    background-image: url('240515-fridge_bgrnd02.jpg');
+    background-repeat: no-repeat;
+/*    background-size: auto; */
+    background-size: cover;
+}
+
+/* Add your custom styles here */
+
+.navbar {
+    display: flex;
+    justify-content: left;
+    background-color: #2b00ff;
+    overflow: hidden;
+    color: white;
+    padding: 16px 18px;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 10px;
+}
+
+/* Change the color of links on hover */
+.navbar a:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  /* Add a color to the active/current link */
+  .navbar a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 30px;
+}  
+
+.card1 {
+    width: 40%;
+    margin-left: 5%;
+    text-align: center;
+    padding: 10px 14px;
+    position: relative;
+   /* z-index: -1; */
+   top: 50px;
+   display:inline-block;
+   float: left;
+
+}
+
+.card2 {
+    width: 40%;
+    margin-left: 5%;
+    background-color: #2b00ff;
+    text-align: center;
+    padding: 10px 14px;
+    position: relative;
+   /* z-index: -1; */
+   top: 50px;
+   display:inline-block;
+   float: inline-start;
+
+}
+
+
+.footer {
+    width: 30%;
+    padding: 10px;
+    text-align: left;
+    font-size: 10px;
+    color: rgb(144, 0, 255);
+    position:relative; 
+    top: 50px;
+    clear:both;
+}
+.footer a {
+    color: #666;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Add styles for other sections */
+
