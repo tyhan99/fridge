@@ -51,8 +51,11 @@ const pool = new Pool({
  
 app.get('/login_ids', async (req, res) => {
     try {
-        const result = await pool.query('SELECT login_id FROM users');
-        res.json(result.rows);
+        const client = await pool.connect();
+        const result = await client.query('SELECT login_id FROM users');
+        res.send(result.rows);
+        console.log(result.rows)
+        client.release()
         } catch (err) {
           console.error(err);
           res.status(500).json({ error: 'Internal Server Error' });
