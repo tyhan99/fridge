@@ -37,7 +37,7 @@ const pool = new Pool({
   
   // Example route to test database connection
   app.get('/test-db', async (req, res) => {
-    connection.query('SELECT * FROM users', (err, results) =&gt; {
+    connection.query('SELECT * FROM users', (err, results) => {
         if (err) {
             res.status(500).send('Error fetching data');
             return;
