@@ -37,15 +37,14 @@ const pool = new Pool({
   
   // Example route to test database connection
   app.get('/test-db', async (req, res) => {
-    try {
-      const client = await pool.connect();
-      const result = await client.query('SELECT NOW()');
-      res.send(result.rows[0]);
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Error connecting to the database');
-    }
+    connection.query('SELECT * FROM users', (err, results) =&gt; {
+        if (err) {
+            res.status(500).send('Error fetching data');
+            return;
+        }
+        res.json(results);
+        console.log(results);
+    });
   });
 
 // Tells the app which port to run on
