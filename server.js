@@ -49,6 +49,15 @@ const pool = new Pool({
       }
     });
  
+app.get('/login_ids', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT login_id FROM users');
+        res.json(result.rows);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      });
 
 // Tells the app which port to run on
 app.listen(8080);
