@@ -1,8 +1,9 @@
 {
     "dependencies": {
-        "@prisma/client": "^5.14.0",
         "dotenv": "^16.4.5",
         "ejs": "^3.1.9",
-        "express": "^4.19.1"
+        "express": "^4.19.1",
+        "pg": "^8.11.5",
+        "typeorm": "^0.3.20"
     }
 }
