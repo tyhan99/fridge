@@ -1,21 +1,10 @@
-const express = require('express');
-const { Client } = require('pg'); // Postgres client library
-
-const app = express();
-const port = process.env.PORT || 5432; // Use environment variable for port 3000
-
-// Use external URL from Render (replace with placeholder)
-const url = process.env.DATABASE_URL;
-
-const client = new Client({ connectionString: url });
-
-client.connect()
-  .then(() => console.log('Connected to PostgreSQL database'))
-  .catch(err => console.error('Connection error:', err.stack));
-
 // imports
 // Needed for dotenv
 require("dotenv").config();
+
+// Needed for Express
+var express = require('express')
+var app = express()
 
 // Needed for EJS
 // app.set('view engine', 'ejs');
@@ -36,6 +25,8 @@ app.get('/', function(req, res) {
 
     res.render('index');
 });
+
+port = process.env.PORT || 8080;
 
 // Create a new pool instance with the connection string
 const { Pool } = require('pg');
