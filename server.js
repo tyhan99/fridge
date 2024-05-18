@@ -13,6 +13,16 @@ client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch(err => console.error('Connection error:', err.stack));
 
+// Index page
+app.get('/', function(req, res) {
+    // How to connect to database without Prisma
+
+    // SELECT + FROM
+    // console.log(data)
+
+    res.render('index');
+});
+
 app.get('/user-ids', async (req, res) => {
   try {
     const sql = 'SELECT * FROM users';
