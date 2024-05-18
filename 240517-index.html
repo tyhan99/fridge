@@ -4,24 +4,6 @@
     <title>Welcome to PawFridge!</title>
     <link rel="stylesheet" href="./styles.css">
 
-    <script>
-        function fetchUserIDs() {
-          fetch('/user-ids')
-            .then(response => response.json())
-            .then(data => {
-              var userList = document.getElementById("user-list");
-              userList.innerHTML = ""; // Clear existing content
-    
-              for (var i = 0; i < data.length; i++) {
-                var listItem = document.createElement("li");
-                listItem.textContent = data[i];
-                userList.appendChild(listItem);
-              }
-            })
-            .catch(err => console.error('Error fetching user IDs:', err));
-        }
-      </script>
-    
 </head>
 <body>
 
@@ -52,11 +34,6 @@
         </div>
     </div>
     <!-- Add other sections here -->
-
-    <h1>User IDs</h1>
-    <ul id="user-list"></ul>
-    <button onclick="fetchUserIDs()">Get User IDs</button>
-    
     <div class="footer">
         <p>&copy; 2024 Your Business. All rights reserved.</p>
     </div>
