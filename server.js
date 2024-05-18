@@ -1,10 +1,21 @@
+const express = require('express');
+const { Client } = require('pg'); // Postgres client library
+
+const app = express();
+const port = process.env.PORT || 5432; // Use environment variable for port 3000
+
+// Use external URL from Render (replace with placeholder)
+const url = process.env.DATABASE_URL;
+
+const client = new Client({ connectionString: url });
+
+client.connect()
+  .then(() => console.log('Connected to PostgreSQL database'))
+  .catch(err => console.error('Connection error:', err.stack));
+
 // imports
 // Needed for dotenv
 require("dotenv").config();
-
-// Needed for Express
-var express = require('express')
-var app = express()
 
 // Needed for EJS
 // app.set('view engine', 'ejs');
@@ -36,19 +47,18 @@ const pool = new Pool({
   });
 
 
-  // Example route to test database connection
-  app.get('/test-db', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT NOW()');
-        res.send(result.rows[0]);
-        client.release();
-      } catch (err) {
-        console.error(err);
-        res.status(500).send('Error connecting to the database');
-      }
-    });
- 
 
-// Tells the app which port to run on
-app.listen(8080);
+app.get('/user-ids', async (req, res) => {
+  try {
+    const sql = 'SELECT userid FROM users';
+    const result = await client.query(sql);
+
+    const userIds = result.rows.map(row => row.userid);
+    res.json(userIds);
+  } catch (err) {
+    console.error('Error fetching user IDs:', err.stack);
+    res.status(500).send('Error retrieving user data');
+  }
+});
+
+app.listen(port, () => console.log(`Server listening on port ${port}`));
