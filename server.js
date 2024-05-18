@@ -48,10 +48,10 @@ app.get('/', function(req, res) {
 
 app.get('/user-ids', async (req, res) => {
   try {
-    const sql = 'SELECT userid FROM users';
+    const sql = 'SELECT user_id FROM users';
     const result = await client.query(sql);
 
-    const userIds = result.rows.map(row => row.userid);
+    const userIds = result.rows.map(row => row.user_id);
     res.json(userIds);
   } catch (err) {
     console.error('Error fetching user IDs:', err.stack);
