@@ -50,11 +50,12 @@ app.get('/user-ids', async (req, res) => {
   try {
     const sql = 'SELECT user_id FROM users';
     const result = await client.query(sql);
-
-    const userIds = result.rows.map(row => row.user_id);
-    res.json(userIds);
+    console.log(result); // Debugging
+    const userids = result.rows.map(row => row.user_id);
+    res.json(userids);
+    console.log(userids); 
   } catch (err) {
-    console.error('Error fetching user IDs:', err.stack);
+    console.error('Error fetching user_ids:', err.stack);
     res.status(500).send('Error retrieving user data');
   }
 });
