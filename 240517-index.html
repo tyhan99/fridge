@@ -4,6 +4,24 @@
     <title>Welcome to PawFridge!</title>
     <link rel="stylesheet" href="./styles.css">
 
+    <script>
+        function fetchUserIDs() {
+          fetch('/user-ids')
+            .then(response => response.json())
+            .then(data => {
+              var userList = document.getElementById("user-list");
+              userList.innerHTML = ""; // Clear existing content
+    
+              for (var i = 0; i < data.length; i++) {
+                var listItem = document.createElement("li");
+                listItem.textContent = data[i];
+                userList.appendChild(listItem);
+              }
+            })
+            .catch(err => console.error('Error fetching user IDs:', err));
+        }
+      </script>
+
 </head>
 <body>
 
@@ -23,7 +41,12 @@
     <div class="grid-container">
         <div class="card1">
             <h3>Let's get started ...</h3>
-            <p>Choose a user on the right, 
+            <p>Choose a user below,
+                <h1>User IDs</h1>
+                <ul id="user-list"></ul>
+                fetchUserIDs();
+                
+
                 <br>or sign up as a new user.</p>
         </div>
         <div class="card2">
