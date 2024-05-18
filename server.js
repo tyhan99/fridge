@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-port = process.env.PORT || 8080;
+port = process.env.PORT || 5432;
 
 // Create a new pool instance with the connection string
 const { Pool } = require('pg');
