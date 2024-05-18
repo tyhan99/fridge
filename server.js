@@ -48,7 +48,7 @@ app.get('/', function(req, res) {
 
 app.get('/user-ids', async (req, res) => {
   try {
-    const sql = 'SELECT * FROM users';
+    const sql = 'SELECT userid FROM users';
     const result = await client.query(sql);
 
     const userIds = result.rows.map(row => row.userid);
