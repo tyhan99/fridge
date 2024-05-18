@@ -4,6 +4,10 @@ const { Client } = require('pg'); // Postgres client library
 const app = express();
 const port = process.env.PORT || 5432; // Use environment variable for port
 
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
+
 // Database connection details (replace with your actual values)
 const url = process.env.DATABASE_URL; // Replace with your actual Render URL
 
