@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<!-- this is index.ejs-->
 <head>
     <title>Welcome to PawFridge!</title>
     <link rel="stylesheet" href="../public/css/styles.css">
@@ -20,6 +21,9 @@
             })
             .catch(err => console.error('Error fetching user IDs:', err));
         }
+        $(document).ready(function(){
+            fetchUserIDs();
+        });
       </script>
     
 </head>
@@ -42,13 +46,12 @@
         <div class="card1">
             <h3>Let's get started ...</h3>
             <p>Choose a user below:</p>
-                <p id="fetchUserIDs"></p>
+                <p></p>
             <p><br> 
                 <br>or sign up as a new user.</p>
         </div>
         <div class="card2">
             <h3>List of existing users</h3>
-
             <p>OR</p>
             <button class="plan-button">Sign Up</a>
         </div>

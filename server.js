@@ -41,8 +41,7 @@ app.get('/', function(req, res) {
     console.log(result);
     const result = client.query("SELECT * FROM users"); 
     console.log(result); 
-    alert(result);
-
+   
     res.render('index');
 });
 
