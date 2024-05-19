@@ -61,10 +61,10 @@ app.get('/user-ids', async (req, res) => {
   }
 });
 
-app.get('/adduser', async (req, res) => {
+app.post('/adduser', async (req, res) => {
   try {
-    const sql = 'SELECT user_id FROM users';
-    const result = await client.query(sql);
+    const { user_id, email } = req.body;
+    const result = await db.query("INSERT INTO users(user_id, email) VALUES ($1, $2)", [user_id, email]); 
     console.log(result); // Debugging
 
   } catch (err) {
