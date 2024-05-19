@@ -10,8 +10,13 @@ const port = process.env.PORT || 5432; // Use environment variable for port
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 
+// Needed for parsing JSON data
+const { bodyParser } = require('body-parser'); 
+
 // Needed for public directory
 app.use(express.static(__dirname));
+//app.use(express.static("views"));
+
 
 // Needed for parsing form data
 app.use(express.json());       
@@ -34,13 +39,10 @@ client.connect()
 
 // Index page
 app.get('/', function(req, res) {
-    // How to connect to database without Prisma
 
-    // SELECT + FROM
-    // console.log(data)
-    console.log(result);
-    const result = client.query("SELECT * FROM users"); 
-    console.log(result); 
+//    console.log(result);
+//   const result = client.query("SELECT * FROM users"); 
+//   console.log(result); 
    
     res.render('index');
 });
