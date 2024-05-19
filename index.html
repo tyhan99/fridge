@@ -46,9 +46,12 @@
             <p>Choose a user below:</p>
                 <div id="user-list"></div>
             <p><br>or sign up as a new user:</p>
-            <button class="plan-button">Sign Up</a>
-
-        </div>
+            <form action="/adduser" method="post">
+                <input type="text" name="user_id" placeholder="Enter your name">
+                <input type="text" name="email" placeholder="Enter your email (optional)">
+                <button class="plan-button" type="submit">Sign up</button>
+              </form>
+          </div>
         <div class="card2">
             <h3>Select an existing fridge</h3>
 
@@ -58,10 +61,7 @@
     </div>
     <!-- Add other sections here -->
 
-    <h1>User IDs</h1>
-    <ul id="user-list"></ul>
-    <button onclick="fetchUserIDs()">Get User IDs</button>
-    
+   
     <div class="footer">
         <p>&copy; 2024 Your Business. All rights reserved.</p>
         <p>Disclaimer:

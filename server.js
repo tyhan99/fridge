@@ -61,4 +61,16 @@ app.get('/user-ids', async (req, res) => {
   }
 });
 
+app.get('/adduser', async (req, res) => {
+  try {
+    const sql = 'SELECT user_id FROM users';
+    const result = await client.query(sql);
+    console.log(result); // Debugging
+
+  } catch (err) {
+    console.error('Error adding new user:', err.stack);
+    res.status(500).send('Error adding new user');
+  }
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
