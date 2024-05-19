@@ -71,6 +71,9 @@ app.post('/adduser', async (req, res) => {
     console.error('Error adding new user:', err.stack);
     res.status(500).send('Error adding new user');
   }
+
+  res.redirect('/');
+
 });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
