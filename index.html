@@ -44,11 +44,12 @@
         })
         .catch(err => console.error('Error fetching user IDs:', err));
     }
-  
+window.onload = function() {  
     document.getElementById("user-list").addEventListener("change", function() {
       selectedUserID = this.value;
       console.log("Selected User ID:", selectedUserID);
     });
+}
 </script>
 
 </head>
