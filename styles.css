@@ -73,6 +73,7 @@ body {
     width: 65%;
     height: 50%;
     margin-left: 5%;
+    margin-right: 5%;
     text-align: center;
     padding: 10px 14px;
     position: relative;
@@ -95,8 +96,10 @@ body {
    /* z-index: -1; */
    top: 50px;
    flex: 2;
- 
+}
 
+.user-list {
+    text-align: left;
 }
 
 .form_button {

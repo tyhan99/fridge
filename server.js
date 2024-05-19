@@ -47,12 +47,27 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.get('/user-ids', async (req, res) => {
+/* app.get('/user-ids', async (req, res) => {
   try {
     const sql = 'SELECT user_id FROM users';
     const result = await client.query(sql);
     console.log(result); // Debugging
     const userids = result.rows.map(row => row.user_id);
+    res.json(userids);
+    console.log(userids); 
+  } catch (err) {
+    console.error('Error fetching user_ids:', err.stack);
+    res.status(500).send('Error retrieving user data');
+  }
+});
+*/
+
+app.get('/user-ids', async (req, res) => {
+  try {
+    const sql = 'SELECT uid, user_id FROM users';
+    const result = await client.query(sql);
+    console.log(result); // Debugging
+    const userids = result.rows.map(row => ({uid: row.uid, user_id: row.user_id}));
     res.json(userids);
     console.log(userids); 
   } catch (err) {

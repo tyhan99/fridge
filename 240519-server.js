@@ -61,4 +61,19 @@ app.get('/user-ids', async (req, res) => {
   }
 });
 
+app.post('/adduser', async (req, res) => {
+  try {
+    const { user_id, email } = req.body;
+    const result = await client.query("INSERT INTO users(user_id, email) VALUES ($1, $2)", [user_id, email]); 
+    console.log(result); // Debugging
+
+  } catch (err) {
+    console.error('Error adding new user:', err.stack);
+    res.status(500).send('Error adding new user');
+  }
+
+  res.redirect('/');
+
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));

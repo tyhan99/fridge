@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<!-- this is index.html-->
+<!-- this is postuser.html-->
 
 <head>
     <title>Welcome to PawFridge!</title>
     <link rel="stylesheet" href="./styles.css">
 
- <!--   <script>
+    <script>
         function fetchUserIDs() {
           fetch('/user-ids')
             .then(response => response.json())
@@ -23,34 +23,7 @@
             .catch(err => console.error('Error fetching user IDs:', err));
         }
       </script>
-   --> 
-
-<script>
-    let selectedUserID;
-  
-    function fetchUserIDs() {
-      fetch('/user-ids')
-        .then(response => response.json())
-        .then(data => {
-          var userList = document.getElementById("user-list");
-          userList.innerHTML = ""; // Clear existing content
-  
-          for (var i = 0; i < data.length; i++) {
-            var optionItem = document.createElement("option");
-            optionItem.textContent = data[i].user_id;
-            optionItem.value = data[i].uid;
-            userList.appendChild(optionItem);
-          }
-        })
-        .catch(err => console.error('Error fetching user IDs:', err));
-    }
-  
-    document.getElementById("user-list").addEventListener("change", function() {
-      selectedUserID = this.value;
-      console.log("Selected User ID:", selectedUserID);
-    });
-</script>
-
+    
 </head>
 <body onload="fetchUserIDs()">
 
@@ -71,9 +44,7 @@
         <div class="card1">
             <h3>Let's get started ...</h3>
             <p>Choose a user below:</p>
-                <div id="user-list" class="
-                user-list"></div>
-            <p><select id="user-list"></select></p>
+                <div id="user-list"></div>
             <p><br>or sign up as a new user:</p>
             <form action="/adduser" method="post">
                 <input type="text" name="user_id" placeholder="Enter your name">
@@ -81,7 +52,12 @@
                 <button class="plan-button" type="submit">Sign up</button>
               </form>
           </div>
+        <div class="card2">
+            <h3>Select an existing fridge</h3>
 
+            <p>OR</p>
+            <button class="plan-button">Submit</a>
+        </div>
     </div>
     <!-- Add other sections here -->
 
