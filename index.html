@@ -39,27 +39,28 @@ $(window).on("load",function() {
   let selectedFridgeID = 0;
 
   function fetchFridgeIDs() {
-    fetch('/fridge-ids')
-      .then(response => response.json())
-      .then(data => {
-        var fridgeList = document.getElementById("fridge-list");
-        fridgeList.innerHTML = ""; // Clear existing content
+  var fridgeList = document.getElementById("fridge-list");
 
-        for (var i = 0; i < data.length; i++) {
-          var optionItem = document.createElement('option');
-          optionItem.textContent = data[i].fridge_name;
-          optionItem.value = data[i].fridge_id;
-          fridgeList.appendChild(optionItem);
-        }
-      })
-      .catch(err => console.error('Error fetching Fridge IDs:', err));
-  }
-$(window).on("load",function() {  
-  document.getElementById("fridge-list").addEventListener("change", function() {
-    selectedUserID = this.value;
-    console.log("Selected Fridge ID:", selectedFridgeID);
+  // Add a click event listener to the dropdown
+  fridgeList.addEventListener('click', function() {
+    // Check if the options have already been loaded
+    if (fridgeList.options.length === 0) {
+      fetch('/fridge-ids')
+        .then(response => response.json())
+        .then(data => {
+          fridgeList.innerHTML = ""; // Clear existing content
+
+          for (var i = 0; i < data.length; i++) {
+            var optionItem = document.createElement('option');
+            optionItem.textContent = data[i].fridge_name;
+            optionItem.value = data[i].fridge_id;
+            fridgeList.appendChild(optionItem);
+          }
+        })
+        .catch(err => console.error('Error fetching Fridge IDs:', err));
+    }
   });
-})
+}
 </script>
 
 <script>
