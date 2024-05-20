@@ -110,7 +110,7 @@ app.post('/adduser', async (req, res) => {
 app.post('/addfridge', async (req, res) => {
   try {
     //const input = req.body()
-    const { fridge_name } = req.body;
+    const { fridge_name, uid } = req.body;
     const result = await client.query("INSERT INTO fridge(fridge_name, uid) VALUES ($1, $2)", [fridge_name, user_id]); 
     console.log(result); // Debugging
 
