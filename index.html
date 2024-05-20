@@ -7,25 +7,6 @@
     <link rel="stylesheet" href="./styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
- <!--   <script>
-        function fetchUserIDs() {
-          fetch('/user-ids')
-            .then(response => response.json())
-            .then(data => {
-              var userList = document.getElementById("user-list");
-              userList.innerHTML = ""; // Clear existing content
-    
-              for (var i = 0; i < data.length; i++) {
-                var listItem = document.createElement("li");
-                listItem.textContent = data[i];
-                userList.appendChild(listItem);
-              }
-            })
-            .catch(err => console.error('Error fetching user IDs:', err));
-        }
-      </script>
-   --> 
-
 <script>
     let selectedUserID = 0;
   
@@ -52,6 +33,32 @@ $(window).on("load",function() {
       console.log("Selected User ID:", selectedUserID);
     });
 })
+</script>
+
+<script>
+  let selectedFridgeID = 0;
+
+  function fetchFridgeIDs() {
+    fetch('/fridge-ids')
+      .then(response => response.json())
+      .then(data => {
+        var fridgeList = document.getElementById("fridge-list");
+        userList.innerHTML = ""; // Clear existing content
+
+        for (var i = 0; i < data.length; i++) {
+          var optionItem = document.createElement('option2');
+          optionItem.value = data[i].fridge_id;
+          userList.appendChild(optionItem);
+        }
+      })
+      .catch(err => console.error('Error fetching Fridge IDs:', err));
+  }
+$(window).on("load",function() {  
+  document.getElementById("user-list").addEventListener("change", function() {
+    selectedUserID = this.value;
+    console.log("Selected Fridge ID:", selectedFridgeID);
+  });
+}
 </script>
 
 </head>

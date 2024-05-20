@@ -92,4 +92,18 @@ app.post('/adduser', async (req, res) => {
 
 });
 
+app.get('/fridge-ids', async (req, res) => {
+  try {
+    const sql = 'SELECT fridge_id FROM fridge';
+    const result = await client.query(sql);
+    console.log(result); // Debugging
+    const fridgeids = result.rows.map(row => ({fridge_id: row.fridge_id}));
+    res.json(fridgeids);
+    console.log(fridgeids); 
+  } catch (err) {
+    console.error('Error fetching fridge_ids:', err.stack);
+    res.status(500).send('Error retrieving fridge data');
+  }
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
