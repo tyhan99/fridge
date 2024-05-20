@@ -76,6 +76,21 @@ app.get('/user-ids', async (req, res) => {
   }
 });
 
+
+app.get('/fridge-ids', async (req, res) => {
+  try {
+    const sql2 = 'SELECT fridge_id, fridge_name FROM fridge';
+    const result2 = await client.query(sql2);
+    console.log(result2); // Debugging
+    const fridgenames = result2.rows.map(row => ({fridge_name: row.fridge_name}));
+    res.json(fridgenames);
+    console.log(fridgenames); 
+  } catch (err) {
+    console.error('Error fetching fridge_ids:', err.stack);
+    res.status(500).send('Error retrieving fridge data');
+  }
+});
+
 app.post('/adduser', async (req, res) => {
   try {
     //const input = req.body()
@@ -92,18 +107,5 @@ app.post('/adduser', async (req, res) => {
 
 });
 
-app.get('/fridge-ids', async (req, res) => {
-  try {
-    const sql2 = 'SELECT fridge_id, fridge_name FROM fridge';
-    const result2 = await client.query(sql2);
-    console.log(result2); // Debugging
-    const fridgenames = result2.rows.map(row => ({fridge_name: row.fridge_name}));
-    res.json(fridgenames);
-    console.log(fridgenames); 
-  } catch (err) {
-    console.error('Error fetching fridge_ids:', err.stack);
-    res.status(500).send('Error retrieving fridge data');
-  }
-});
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
