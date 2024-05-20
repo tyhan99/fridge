@@ -36,7 +36,7 @@
   $(window).on("load",function() {  
   document.getElementById("user-list").addEventListener("change", function() {
     selectedUserID = this.value;
-    console.log("Selected Fridge ID:", selectedFridgeID);
+    console.log("Selected User ID:", selectedUserID);
   });
     });
   }
@@ -68,7 +68,15 @@
         .catch(err => console.error('Error fetching Fridge IDs:', err));
     }
   });
+
+  $(window).on("load",function() {  
+  document.getElementById("fridge-list").addEventListener("change", function() {
+    selectedFridgeID = this.value;
+    console.log("Selected Fridge ID:", selectedFridgeID);
+  });
+    });
 }
+  
 </script>
 
 <script>
