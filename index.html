@@ -61,8 +61,18 @@ $(window).on("load",function() {
 }
 </script>
 
+<script>
+        $(document).ready(fetchUserIDs);
+        /* document.body.addEventListener('load', fetchUserIDs); */
+        console.log("fetchUserIDs preloaded")
+    </script>
+<script>
+        $(document).ready(fetchFridgeIDs);
+        console.log("fetchFridgeIDs preloaded")
+    </script>
 </head>
-<body onload="fetchUserIDs()">
+
+<body>
 
     <div class="navbar">
             <a href="#home">Home</a>
@@ -99,9 +109,9 @@ $(window).on("load",function() {
               <select id="fridge-list"></select>
               
           <p><br>or add a new fridge:</p>
-          <form action="/adduser" method="post">
+          <form action="/addfridge" method="post">
               <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
-              <button class="plan-button" type="submit">Sign up</button>
+              <button class="plan-button" type="submit">Add</button>
             </form>
       </div>
     </div>
