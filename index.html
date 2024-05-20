@@ -43,12 +43,12 @@ $(window).on("load",function() {
       .then(response => response.json())
       .then(data => {
         var fridgeList = document.getElementById("fridge-list");
-        userList.innerHTML = ""; // Clear existing content
+        fridgeList.innerHTML = ""; // Clear existing content
 
         for (var i = 0; i < data.length; i++) {
           var optionItem = document.createElement('option2');
           optionItem.textContent = data[i].fridge_name;
-          userList.appendChild(optionItem);
+          fridgeList.appendChild(optionItem);
         }
       })
       .catch(err => console.error('Error fetching Fridge IDs:', err));
