@@ -47,6 +47,10 @@
 // Fetch the fridge IDs
   let selectedFridgeID = 1;
 
+  function updateUIDValue() {
+    document.getElementsByName('selectedUserID')[0].value = selectedUserID;
+  }
+
   function fetchFridgeIDs() {
   var fridgeList = document.getElementById("fridge-list");
 
@@ -73,6 +77,7 @@
   $(window).on("load",function() {  
   document.getElementById("fridge-list").addEventListener("change", function() {
     selectedFridgeID = this.value;
+    updateUIDValue();
     console.log("Selected Fridge ID:", selectedFridgeID);
   });
     });
@@ -127,7 +132,7 @@
           <p><br>or add a new fridge:</p>
           <form action="/addfridge" method="post">
               <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
-              <input type="number" name="selectedUserID" value=selectedUserID hidden>
+              <input type="number" name="selectedUserID" hidden>
               <button class="plan-button" type="submit">Add</button>
             </form>
       </div>
