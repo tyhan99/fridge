@@ -82,7 +82,7 @@ app.get('/fridge-ids', async (req, res) => {
     const sql2 = 'SELECT fridge_id, fridge_name FROM fridge';
     const result2 = await client.query(sql2);
     console.log(result2); // Debugging
-    const fridgenames = result2.rows.map(row => ({fridge_name: row.fridge_name}));
+    const fridgenames = result2.rows.map(row => ({fridge_id: row.fridge_id, fridge_name: row.fridge_name}));
     res.json(fridgenames);
     console.log(fridgenames); 
   } catch (err) {
