@@ -10,6 +10,7 @@
 <script>
     let selectedUserID = 0;
     
+    function fetchUserIDs() {
     var userList = document.getElementById("user-list");
 
     // Add a click event listener to the dropdown
@@ -30,8 +31,8 @@
           })
           .catch(err => console.error('Error fetching user IDs:', err));
       }
-    });  
-
+    });
+  }
 </script>
 
 <script>
