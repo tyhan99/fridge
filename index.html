@@ -9,7 +9,7 @@
 
 <script>
   // Fetch the User IDs
-    let selectedUserID = 0;
+    let selectedUserID = 1;
     
     function fetchUserIDs() {
     var userList = document.getElementById("user-list");
@@ -45,7 +45,7 @@
 
 
 // Fetch the fridge IDs
-  let selectedFridgeID = 0;
+  let selectedFridgeID = 1;
 
   function fetchFridgeIDs() {
   var fridgeList = document.getElementById("fridge-list");
@@ -127,6 +127,7 @@
           <p><br>or add a new fridge:</p>
           <form action="/addfridge" method="post">
               <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
+              <input type="number" name="selectedUserID" value=selectedUserID hidden>
               <button class="plan-button" type="submit">Add</button>
             </form>
       </div>
