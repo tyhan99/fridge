@@ -94,7 +94,7 @@ app.post('/adduser', async (req, res) => {
 
 app.get('/fridge-ids', async (req, res) => {
   try {
-    const sql2 = 'SELECT fridge_name FROM fridge';
+    const sql2 = 'SELECT fridge_id, fridge_name FROM fridge';
     const result2 = await client.query(sql2);
     console.log(result2); // Debugging
     const fridgenames = result2.rows.map(row => ({fridge_name: row.fridge_name}));

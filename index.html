@@ -46,8 +46,9 @@ $(window).on("load",function() {
         fridgeList.innerHTML = ""; // Clear existing content
 
         for (var i = 0; i < data.length; i++) {
-          var optionItem = document.createElement('option2');
+          var optionItem = document.createElement('option');
           optionItem.textContent = data[i].fridge_name;
+          optionItem.value = data[i].fridge_id;
           fridgeList.appendChild(optionItem);
         }
       })
