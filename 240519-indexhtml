@@ -72,8 +72,12 @@ window.onload = function() {
         <div class="card1">
             <h3>Let's get started ...</h3>
             <p>Choose a user below:</p>
+<!--                <div id="user-list" class="
+                user-list"></div>
+-->
                 <select id="user-list"></select>
-                            <p><br>or sign up as a new user:</p>
+                
+            <p><br>or sign up as a new user:</p>
             <form action="/adduser" method="post">
                 <input type="text" name="user_id" placeholder="Enter your name">
                 <input type="text" name="email" placeholder="Enter your email (optional)">
@@ -94,25 +98,24 @@ window.onload = function() {
               <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
               <button class="plan-button" type="submit">Sign up</button>
             </form>
-      </div>
-    </div>
+        </div>
 
-    <div class="grid-container">
-        <div class="card3">
-            <h3>Here's the contents of your fridge</h3>
-                <select id="fridge-list"></select>
+        <div class="grid-container">
+          <div class="card3">
+              <h3>Here's the contents of the fridge you selected</h3>
+                  <select id="fridge-list"></select>
                   
-            <p>add a food item:</p>
+              <p><br>add a food item:</p>
               <form action="/addfood" method="post">
                   <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
                   <button class="plan-button" type="submit">Sign up</button>
                 </form>
-          </div>
+            </div>
     
-    </div>
+  </div>
    
     <div class="footer">
-        <p>&copy; PawFridge. All rights reserved.</p>
+        <p>&copy; 2024 Your Business. All rights reserved.</p>
         <p>Disclaimer:
             This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
     </div>
