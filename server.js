@@ -103,6 +103,18 @@ app.post('/adduser', async (req, res) => {
     res.status(500).send('Error adding new user');
   }
 
+app.post('/addfridge', async (req, res) => {
+  try {
+    //const input = req.body()
+    const { fridge_name } = req.body;
+    const result = await client.query("INSERT INTO users(fridge_name, uid) VALUES ($1, $2)", [fridge_name, user_id]); 
+    console.log(result); // Debugging
+
+  } catch (err) {
+    console.error('Error adding new user:', err.stack);
+    res.status(500).send('Error adding new user');
+  }
+
   res.redirect('/');
 
 });
