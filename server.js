@@ -64,10 +64,10 @@ app.get('/', function(req, res) {
 
 app.get('/user-ids', async (req, res) => {
   try {
-    const sql = 'SELECT uid, user_id FROM users';
-    const result = await client.query(sql);
-    console.log(result); // Debugging
-    const userids = result.rows.map(row => ({uid: row.uid, user_id: row.user_id}));
+    const sql1 = 'SELECT uid, user_id FROM users';
+    const result1 = await client.query(sql1);
+    console.log(result1); // Debugging
+    const userids = result1.rows.map(row => ({uid: row.uid, user_id: row.user_id}));
     res.json(userids);
     console.log(userids); 
   } catch (err) {
@@ -94,12 +94,12 @@ app.post('/adduser', async (req, res) => {
 
 app.get('/fridge-ids', async (req, res) => {
   try {
-    const sql = 'SELECT fridge_id FROM fridge';
-    const result = await client.query(sql);
-    console.log(result); // Debugging
-    const fridgeids = result.rows.map(row => ({fridge_id: row.fridge_id}));
-    res.json(fridgeids);
-    console.log(fridgeids); 
+    const sql2 = 'SELECT fridge_name FROM fridge';
+    const result2 = await client.query(sql2);
+    console.log(result2); // Debugging
+    const fridgenames = result2.rows.map(row => ({fridge_name: row.fridge_name}));
+    res.json(fridgenames);
+    console.log(fridgenames); 
   } catch (err) {
     console.error('Error fetching fridge_ids:', err.stack);
     res.status(500).send('Error retrieving fridge data');

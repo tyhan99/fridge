@@ -47,7 +47,7 @@ $(window).on("load",function() {
 
         for (var i = 0; i < data.length; i++) {
           var optionItem = document.createElement('option2');
-          optionItem.value = data[i].fridge_id;
+          optionItem.textContent = data[i].fridge_name;
           userList.appendChild(optionItem);
         }
       })
