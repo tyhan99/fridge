@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+  // Fetch the User IDs
     let selectedUserID = 0;
     
     function fetchUserIDs() {
@@ -41,9 +42,9 @@
     });
   }
   
-</script>
 
-<script>
+
+// Fetch the fridge IDs
   let selectedFridgeID = 0;
 
   function fetchFridgeIDs() {
@@ -77,17 +78,14 @@
     });
 }
   
+//preload User and Fridge IDs
+  $(document).ready(fetchUserIDs);
+    /* document.body.addEventListener('load', fetchUserIDs); */
+  console.log("fetchUserIDs preloaded")
+  $(document).ready(fetchFridgeIDs);
+  console.log("fetchFridgeIDs preloaded")
 </script>
 
-<script>
-        $(document).ready(fetchUserIDs);
-        /* document.body.addEventListener('load', fetchUserIDs); */
-        console.log("fetchUserIDs preloaded")
-    </script>
-<script>
-        $(document).ready(fetchFridgeIDs);
-        console.log("fetchFridgeIDs preloaded")
-    </script>
 </head>
 
 <body>

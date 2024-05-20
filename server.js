@@ -40,27 +40,9 @@ client.connect()
 // Index page
 app.get('/', function(req, res) {
 
-//    console.log(result);
-//   const result = client.query("SELECT * FROM users"); 
-//   console.log(result); 
-   
     res.render('index');
 });
 
-/* app.get('/user-ids', async (req, res) => {
-  try {
-    const sql = 'SELECT user_id FROM users';
-    const result = await client.query(sql);
-    console.log(result); // Debugging
-    const userids = result.rows.map(row => row.user_id);
-    res.json(userids);
-    console.log(userids); 
-  } catch (err) {
-    console.error('Error fetching user_ids:', err.stack);
-    res.status(500).send('Error retrieving user data');
-  }
-});
-*/
 
 app.get('/user-ids', async (req, res) => {
   try {
