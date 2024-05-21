@@ -150,6 +150,32 @@ $(document).ready(function() {
 // Fetch the food data when the page loads
 $(document).ready(fetchFoodData);
 
+
+// add food form
+
+('#add-food-form').submit(function(event) {
+  event.preventDefault(); // Prevent the form from being submitted normally
+  var formData = new FormData(this);
+  $.ajax({
+    url: '/add-food',
+    type: 'POST',
+    data: formData,
+    processData: false,  // tell jQuery not to process the data
+    contentType: false,  // tell jQuery not to set contentType
+    success: function(data) {
+      console.log('Success:', data);
+      fetchFoodData(); // Refresh the food data
+    },
+    error: function(error) {
+      console.error('Error:', error);
+    }
+  });
+});
+
+
+// end add food form
+
+
 // end new code 21/5
 </script>
 

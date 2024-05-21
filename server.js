@@ -151,26 +151,6 @@ app.post('/add-food', async (req, res) => {
   }
 });
 
-document.getElementById('add-food-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from being submitted normally
-  var formData = new FormData(this);
-  fetch('/add-food', {
-    method: 'POST',
-    body: formData,
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
-    fetchFoodData(); // Refresh the food data
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-});
-
-document.getElementById('cancel-add').addEventListener('click', function() {
-  document.getElementById('add-food-form').reset();
-});
 
 // end new code 21/5
 // test
