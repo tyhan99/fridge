@@ -169,7 +169,7 @@ function addFoodItem() {
       note: $('#note').val(),
       discard: $('#discard').is(':checked'), // This will be true if the checkbox is checked, false otherwise
       fridge_id: selectedFridgeID,
-      user_id: selectedUserID
+      owner: selectedUserID
     };
 
     $.ajax({

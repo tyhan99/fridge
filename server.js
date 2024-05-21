@@ -142,7 +142,7 @@ app.post('/delete-food', async (req, res) => {
 app.post('/add-food', async (req, res) => {
   try {
     const { food_name, qty, expiry_date, note, discard } = req.body;
-    const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, selectedFridgeID, selectedUserID]); 
+    const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, owner) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, fridge_id, owner]); 
     console.log(result); // Debugging
     res.json({ status: 'success' });
   } catch (err) {
