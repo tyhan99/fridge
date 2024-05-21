@@ -111,9 +111,13 @@ function fetchFoodData() {
         row.insertCell().textContent = data[i].food_id;
         row.insertCell().textContent = data[i].food_name;
         row.insertCell().textContent = data[i].qty;
-        row.insertCell().textContent = data[i].expiry_date;
+
+      // Format the expiry_date string
+        var expiryDate = new Date(data[i].expiry_date);
+        row.insertCell().textContent = expiryDate.toISOString().split('T')[0];
+
         row.insertCell().textContent = data[i].note;
-        row.insertCell().textContent = data[i].user_id; // Owner data
+        row.insertCell().textContent = data[i].owner; // Owner data
         row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
       }
     })
