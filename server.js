@@ -109,7 +109,7 @@ app.post('/addfridge', async (req, res) => {
 app.get('/food-data', async (req, res) => {
   try {
     const fridge_id = req.query.fridge_id;
-    const sql = 'SELECT food.*, users.user_id FROM food JOIN users ON food.owner = users.uid WHERE food.fridge_id = $1';
+    const sql = 'SELECT food.*, users.user_id AS owner FROM food JOIN users ON food.owner = users.uid WHERE food.fridge_id = $1';
     const result = await client.query(sql, [fridge_id]);
     console.log(result); // Debugging
     const foodData = result.rows.map(row => ({
