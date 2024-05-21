@@ -89,34 +89,6 @@
   console.log("fetchUserIDs preloaded")
   $(document).ready(fetchFridgeIDs);
   console.log("fetchFridgeIDs preloaded")
-
-
-// new code from 21/5
-
-function fetchFoodData() {
-  fetch('/food-data')
-    .then(response => response.json())
-    .then(data => {
-      var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
-      foodTable.innerHTML = ""; // Clear existing content
-
-      for (var i = 0; i < data.length; i++) {
-        var row = foodTable.insertRow();
-        row.insertCell().textContent = data[i].food_id;
-        row.insertCell().textContent = data[i].food_name;
-        row.insertCell().textContent = data[i].qty;
-        row.insertCell().textContent = data[i].expiry_date;
-        row.insertCell().textContent = data[i].note;
-        row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
-      }
-      console.log(foodTable);
-    })
-    .catch(err => console.error('Error fetching food data:', err));
-}
-
-// Fetch the food data when the page loads
-$(document).ready(fetchFoodData);
-
 </script>
 
 </head>
@@ -166,7 +138,7 @@ $(document).ready(fetchFoodData);
       </div>
     </div>
 
-<!--    <div class="grid-container">
+    <div class="grid-container">
         <div class="card3">
             <h3>Here's the contents of your fridge</h3>
                 <select id="fridge-list"></select>
@@ -179,39 +151,7 @@ $(document).ready(fetchFoodData);
           </div>
     
     </div>
--->
-
-<!-- new code from 21/5 -->
-<div class="grid-container">
-  <div class="card3">
-    <h3>Here's the contents of your fridge</h3>
-    <table id="food-table">
-      <thead>
-        <tr>
-          <th>Food ID</th>
-          <th>Food Name</th>
-          <th>Quantity</th>
-          <th>Expiry Date</th>
-          <th>Note</th>
-          <th>Discard</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Food data will be inserted here -->
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
+   
     <div class="footer">
         <p>&copy; PawFridge. All rights reserved.</p>
         <p>Disclaimer:

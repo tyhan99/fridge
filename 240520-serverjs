@@ -104,26 +104,4 @@ app.post('/addfridge', async (req, res) => {
 
 });
 
-// new code from 21/5
-
-app.get('/food-data', async (req, res) => {
-  try {
-    const sql = 'SELECT * FROM food';
-    const result = await client.query(sql);
-    console.log(result); // Debugging
-    const foodData = result.rows.map(row => ({
-      food_id: row.food_id,
-      food_name: row.food_name,
-      qty: row.qty,
-      expiry_date: row.expiry_date,
-      note: row.note,
-      discard: row.discard
-    }));
-    res.json(foodData);
-  } catch (err) {
-    console.error('Error fetching food data:', err.stack);
-    res.status(500).send('Error retrieving food data');
-  }
-});
-
 app.listen(port, () => console.log(`Server listening on port ${port}`));
