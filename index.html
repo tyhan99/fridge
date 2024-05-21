@@ -172,7 +172,7 @@ function addFoodItem() {
       owner: selectedUserID
     };
 
-    $.ajax({
+  $.ajax({
       url: '/add-food',
       type: 'POST',
       data: JSON.stringify(formData), // Convert the form data to JSON
@@ -180,12 +180,19 @@ function addFoodItem() {
       success: function(data) {
         console.log('Success:', data);
         fetchFoodData(); // Refresh the food data
+        modal.style.display = "none"; // Close the modal
       },
       error: function(error) {
         console.error('Error:', error);
       }
     });
   });
+
+// Close the modal when the 'Cancel' button is clicked
+  $('#cancel-add').click(function() {
+    modal.style.display = "none";
+  });
+
 }
 
 // Call the function when the document is ready
