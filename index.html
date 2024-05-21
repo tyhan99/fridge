@@ -119,25 +119,25 @@ function fetchFoodData() {
     .catch(err => console.error('Error fetching food data:', err));
 }
 
-document.getElementById('delete').addEventListener('click', function() {
-  var selectedFoodItem = document.querySelector('input[name="food-item"]:checked').value;
-  if (confirm('Are you sure you want to delete this food item?')) {
-    fetch('/delete-food', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ food_id: selectedFoodItem }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      fetchFoodData(); // Refresh the food data
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
+$(document).ready(function() {
+  $('#delete').click(function() {
+    var selectedFoodItem = $('input[name="food-item"]:checked').val();
+    if (confirm('Are you sure you want to delete this food item?')) {
+      $.ajax({
+        url: '/delete-food',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ food_id: selectedFoodItem }),
+        success: function(data) {
+          console.log('Success:', data);
+          fetchFoodData(); // Refresh the food data
+        },
+        error: function(error) {
+          console.error('Error:', error);
+        }
+      });
+    }
+  });
 });
 
 // Fetch the food data when the page loads
