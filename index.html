@@ -253,6 +253,7 @@ function editFoodItem() {
       qty: $('#edit-qty').val(),
       expiry_date: $('#edit-expiry-date').val(),
       note: $('#edit-note').val(),
+      discard: $('#edit-discard').prop('checked'),
       food_id: selectedFoodItem,
       owner: selectedUserID
     };
@@ -411,6 +412,8 @@ $(document).ready(editFoodItem);
       <input type="date" id="edit-expiry-date" name="expiry_date"><br>
       <label for="edit-note">Note:</label><br>
       <input type="text" id="edit-note" name="note"><br>
+      <label for="edit-discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="edit-discard" name="discard"><br>
       <input type="submit" value="Submit">
       <input type="button" value="Cancel" id="cancel-edit">
     </form>
@@ -485,33 +488,34 @@ $(document).ready(editFoodItem);
 
   // Fetch the food item data and fill the form inputs
   fetch('/food-data?food_id=' + selectedFoodItem)
-    .then(response => response.json())
-    .then(data => {
-      $('#edit-food-name').val(data.food_name);
-      $('#edit-qty').val(data.qty);
-      $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
-      $('#edit-note').val(data.note);
-      
-      editModal.style.display = "block";
-    })
+  .then(response => response.json())
+  .then(data => {
+    $('#edit-food-name').val(data.food_name);
+    $('#edit-qty').val(data.qty);
+    $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
+    $('#edit-note').val(data.note);
+    $('#edit-discard').prop('checked', data.discard); // Set the 'checked' property based on the 'discard' value
+
+    editModal.style.display = "block";
+  })
+  .catch(err => console.error('Error fetching food data:', err));
     
 // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  editModal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == editModal) {
+  span.onclick = function() {
     editModal.style.display = "none";
   }
-}
 
-      .catch(err => console.error('Error fetching food data:', err));
+// When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == editModal) {
+      editModal.style.display = "none";
+    }
   }
+
+}
   // End of edit food listener
 
       

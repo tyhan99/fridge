@@ -159,6 +159,24 @@ app.post('/add-food', async (req, res) => {
   }
 });
 
+app.post('/edit-food', async (req, res) => {
+  try {
+    const { food_name, qty, expiry_date, note, discard, food_id, owner } = req.body;
+    const result = await client.query("UPDATE food SET food_name = $1, qty = $2, expiry_date = $3, note = $4, discard = $5, owner = $6 WHERE food_id = $7", [food_name, qty, expiry_date, note, discard, owner, food_id]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+      // Clear the form inputs
+        $('#food-name').val('');
+        $('#qty').val('');
+        $('#expiry-date').val('');
+        $('#note').val('');
+        $('#discard').prop('checked', false);
+  } catch (err) {
+    console.error('Error editing food item:', err.stack);
+    res.status(500).send('Error editing food item');
+  }
+});
+
 
 // end new code 21/5
 // test
