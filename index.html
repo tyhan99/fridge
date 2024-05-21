@@ -184,7 +184,7 @@ $(document).ready(function() {
 $(document).ready(fetchFoodData);
 
 
-// add food form function
+// add food modal function
 
 function addFoodItem() {
   $('#add-food-form').submit(function(event) {
@@ -231,9 +231,56 @@ function addFoodItem() {
 // Call the function when the document is ready
 $(document).ready(addFoodItem);
 
-// end add food form
+// end add food modal
 
+// edit food modal function
 
+function editFoodItem() {
+  $('#edit-food-form').submit(function(event) {
+    event.preventDefault(); // Prevent the form from being submitted normally
+
+    // Get the selected food item
+    var selectedFoodItem = $('input[name="food-item"]:checked').val();
+
+    if (!selectedFoodItem) {
+      alert('Please select a food item to edit');
+      return;
+    }
+
+    // Create an object to hold the form data
+    var formData = {
+      food_name: $('#edit-food-name').val(),
+      qty: $('#edit-qty').val(),
+      expiry_date: $('#edit-expiry-date').val(),
+      note: $('#edit-note').val(),
+      food_id: selectedFoodItem,
+      owner: selectedUserID
+    };
+
+    $.ajax({
+      url: '/edit-food',
+      type: 'POST',
+      data: JSON.stringify(formData), // Convert the form data to JSON
+      contentType: 'application/json',  // Set the data type to JSON
+      success: function(data) {
+        console.log('Success:', data);
+        fetchFoodData(selectedFridgeID); // Refresh the food data
+        editModal.style.display = "none"; // Close the modal
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+
+  // Close the modal when the 'Cancel' button is clicked
+  $('#cancel-edit').click(function() {
+    editModal.style.display = "none";
+  });
+}
+
+// Call the function when the document is ready
+$(document).ready(editFoodItem);
 
 // end new code 21/5
 </script>
@@ -349,7 +396,29 @@ $(document).ready(addFoodItem);
   </div>
 </div>
 
+<!-- Edit Food Modal -->
 
+<!-- Edit Food Item Modal -->
+<div id="editFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="edit-food-form">
+      <label for="edit-food-name">Name of food:</label><br>
+      <input type="text" id="edit-food-name" name="food_name"><br>
+      <label for="edit-qty">Quantity:</label><br>
+      <input type="number" id="edit-qty" name="qty"><br>
+      <label for="edit-expiry-date">Expiry date:</label><br>
+      <input type="date" id="edit-expiry-date" name="expiry_date"><br>
+      <label for="edit-note">Note:</label><br>
+      <input type="text" id="edit-note" name="note"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-edit">
+    </form>
+  </div>
+</div>
+
+
+<!-- End of Edit Food Modal -->
 
 
 <!-- end new code 21/5 -->
@@ -367,7 +436,7 @@ $(document).ready(addFoodItem);
     </div>
 
   <script>
-      // listener for the add new food button
+    // listener for the add new food button
       
       // Get the modal
       var modal = document.getElementById("addFoodModal");
@@ -395,7 +464,40 @@ $(document).ready(addFoodItem);
         }
       }
       
-      // end of add new food listener
+    // end of add new food listener
+
+  // listener for the edit food button
+    // Get the modal
+    var editModal = document.getElementById("editFoodModal");
+
+    // Get the button that opens the modal
+    var editBtn = document.getElementById("edit");
+
+    // When the user clicks the button, open the modal 
+    editBtn.onclick = function() {
+    // Get the selected food item
+    var selectedFoodItem = $('input[name="food-item"]:checked').val();
+
+    if (!selectedFoodItem) {
+      alert('Please select a food item to edit');
+    return;
+  }
+
+  // Fetch the food item data and fill the form inputs
+    fetch('/food-data?food_id=' + selectedFoodItem)
+      .then(response => response.json())
+      .then(data => {
+        $('#edit-food-name').val(data.food_name);
+        $('#edit-qty').val(data.qty);
+        $('#edit-expiry-date').val(data.expiry_date);
+        $('#edit-note').val(data.note);
+      })
+      .catch(err => console.error('Error fetching food data:', err));
+
+    editModal.style.display = "block";
+  }
+  // End of edit food listener
+
       
       
   </script>

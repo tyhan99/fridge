@@ -147,6 +147,12 @@ app.post('/add-food', async (req, res) => {
     const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, owner) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, fridge_id, owner]); 
     console.log(result); // Debugging
     res.json({ status: 'success' });
+      // Clear the form inputs
+        $('#food-name').val('');
+        $('#qty').val('');
+        $('#expiry-date').val('');
+        $('#note').val('');
+        $('#discard').prop('checked', false);
   } catch (err) {
     console.error('Error adding new food item:', err.stack);
     res.status(500).send('Error adding new food item');
