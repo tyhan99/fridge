@@ -139,6 +139,39 @@ app.post('/delete-food', async (req, res) => {
   }
 });
 
+app.post('/add-food', async (req, res) => {
+  try {
+    const { food_name, qty, expiry_date, note, discard } = req.body;
+    const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, selectedFridgeID, selectedUserID]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+  } catch (err) {
+    console.error('Error adding new food item:', err.stack);
+    res.status(500).send('Error adding new food item');
+  }
+});
+
+document.getElementById('add-food-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from being submitted normally
+  var formData = new FormData(this);
+  fetch('/add-food', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+    fetchFoodData(); // Refresh the food data
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+});
+
+document.getElementById('cancel-add').addEventListener('click', function() {
+  document.getElementById('add-food-form').reset();
+});
+
 // end new code 21/5
 // test
 

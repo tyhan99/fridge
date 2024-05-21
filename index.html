@@ -122,13 +122,14 @@ function fetchFoodData() {
 
 $(document).ready(function() {
   $('#delete').click(function() {
-    var selectedFoodItem = $('input[name="food-item"]:checked').val();
-    if (confirm('Are you sure you want to delete this food item?')) {
+  var selectedFoodItem = $('input[name="food-item"]:checked');
+  if (selectedFoodItem.length > 0) {
+    if (confirm('Confirm to delete food item?')) {
       $.ajax({
         url: '/delete-food',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ food_id: selectedFoodItem }),
+        data: JSON.stringify({ food_id: selectedFoodItem.val() }),
         success: function(data) {
           console.log('Success:', data);
           fetchFoodData(); // Refresh the food data
@@ -138,7 +139,12 @@ $(document).ready(function() {
         }
       });
     }
+  } else {
+    alert('Please select a food item to delete');
+  }
   });
+
+
 });
 
 // Fetch the food data when the page loads
@@ -236,7 +242,31 @@ $(document).ready(fetchFoodData);
   </div>
 </div>
 
+<!-- Add New Food Item Modal -->
+<div id="addFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="add-food-form">
+      <label for="food-name">Name of food:</label><br>
+      <input type="text" id="food-name" name="food_name"><br>
+      <label for="qty">Quantity:</label><br>
+      <input type="number" id="qty" name="qty"><br>
+      <label for="expiry-date">Expiry date:</label><br>
+      <input type="date" id="expiry-date" name="expiry_date"><br>
+      <label for="note">Note:</label><br>
+      <input type="text" id="note" name="note"><br>
+      <label for="discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-add">
+    </form>
+  </div>
+</div>
 
+
+
+
+<!-- end new code 21/5 -->
 
 
 
