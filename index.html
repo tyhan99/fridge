@@ -151,26 +151,45 @@ $(document).ready(function() {
 $(document).ready(fetchFoodData);
 
 
-// add food form
+// add food form function
 
-('#add-food-form').submit(function(event) {
-  event.preventDefault(); // Prevent the form from being submitted normally
-  var formData = new FormData(this);
-  $.ajax({
-    url: '/add-food',
-    type: 'POST',
-    data: formData,
-    processData: false,  // tell jQuery not to process the data
-    contentType: false,  // tell jQuery not to set contentType
-    success: function(data) {
-      console.log('Success:', data);
-      fetchFoodData(); // Refresh the food data
-    },
-    error: function(error) {
-      console.error('Error:', error);
-    }
+function addFoodItem() {
+  $('#add-food-form').submit(function(event) {
+    event.preventDefault(); // Prevent the form from being submitted normally
+
+    // Get the selected fridge and user IDs from the dropdowns
+    var selectedFridgeID = $('#fridge-list').val();
+    var selectedUserID = $('#user-list').val();
+
+    // Create an object to hold the form data
+    var formData = {
+      food_name: $('#food-name').val(),
+      qty: $('#qty').val(),
+      expiry_date: $('#expiry-date').val(),
+      note: $('#note').val(),
+      discard: $('#discard').is(':checked'), // This will be true if the checkbox is checked, false otherwise
+      fridge_id: selectedFridgeID,
+      user_id: selectedUserID
+    };
+
+    $.ajax({
+      url: '/add-food',
+      type: 'POST',
+      data: JSON.stringify(formData), // Convert the form data to JSON
+      contentType: 'application/json',  // Set the data type to JSON
+      success: function(data) {
+        console.log('Success:', data);
+        fetchFoodData(); // Refresh the food data
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
   });
-});
+}
+
+// Call the function when the document is ready
+$(document).ready(addFoodItem);
 
 
 // end add food form
