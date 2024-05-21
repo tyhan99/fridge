@@ -108,7 +108,7 @@ app.post('/addfridge', async (req, res) => {
 
 app.get('/food-data', async (req, res) => {
   try {
-    const sql = 'SELECT food.*, users.user_id FROM food JOIN users ON food.owner = users.uid';
+    const sql = 'SELECT * FROM food';
     const result = await client.query(sql);
     console.log(result); // Debugging
     const foodData = result.rows.map(row => ({
@@ -117,7 +117,6 @@ app.get('/food-data', async (req, res) => {
       qty: row.qty,
       expiry_date: row.expiry_date,
       note: row.note,
-      user_id: row.user_id, // Owner data
       discard: row.discard
     }));
     res.json(foodData);

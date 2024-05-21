@@ -113,7 +113,6 @@ function fetchFoodData() {
         row.insertCell().textContent = data[i].qty;
         row.insertCell().textContent = data[i].expiry_date;
         row.insertCell().textContent = data[i].note;
-        row.insertCell().textContent = data[i].user_id; // Owner data
         row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
       }
     })
@@ -225,7 +224,6 @@ $(document).ready(fetchFoodData);
           <th>Quantity</th>
           <th>Expiry Date</th>
           <th>Note</th>
-          <th>Owner</th>
           <th>Discard</th>
         </tr>
       </thead>
