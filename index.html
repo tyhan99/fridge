@@ -492,7 +492,14 @@ $(document).ready(editFoodItem);
   .then(data => {
     $('#edit-food-name').val(data.food_name);
     $('#edit-qty').val(data.qty);
-    $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
+
+    // Check if expiry_date exists and is in the correct format
+    if (data.expiry_date && typeof data.expiry_date === 'string') {
+      $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
+    } else {
+      $('#edit-expiry-date').val(''); // Clear the input field if expiry_date is not in the correct format
+      }
+
     $('#edit-note').val(data.note);
     $('#edit-discard').prop('checked', data.discard); // Set the 'checked' property based on the 'discard' value
 
