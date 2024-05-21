@@ -165,7 +165,7 @@ $(document).ready(function() {
         data: JSON.stringify({ food_id: selectedFoodItem.val() }),
         success: function(data) {
           console.log('Success:', data);
-          fetchFoodData(); // Refresh the food data
+          fetchFoodData(selectedFridgeID); // Refresh the food data
         },
         error: function(error) {
           console.error('Error:', error);
