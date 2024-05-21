@@ -126,4 +126,18 @@ app.get('/food-data', async (req, res) => {
   }
 });
 
+app.post('/delete-food', async (req, res) => {
+  try {
+    const { food_id } = req.body;
+    const result = await client.query("DELETE FROM food WHERE food_id = $1", [food_id]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+  } catch (err) {
+    console.error('Error deleting food item:', err.stack);
+    res.status(500).send('Error deleting food item');
+  }
+});
+
+// end new code 21/5
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
