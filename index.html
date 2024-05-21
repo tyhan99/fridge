@@ -188,37 +188,6 @@ function addFoodItem() {
   });
 }
 
-// listener for the add new food button
-
-// Get the modal
-var modal = document.getElementById("addFoodModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("add-new");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-// end of add new food listener
-
-
 // Call the function when the document is ready
 $(document).ready(addFoodItem);
 
@@ -356,5 +325,40 @@ $(document).ready(addFoodItem);
             This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
     </div>
 
+  <script>
+      // listener for the add new food button
+      
+      // Get the modal
+      var modal = document.getElementById("addFoodModal");
+      
+      // Get the button that opens the modal
+      var btn = document.getElementById("add-new");
+      
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      
+      // When the user clicks the button, open the modal 
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+      
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      
+      // end of add new food listener
+      
+      
+  </script>
+
 </body>
+
 </html>
