@@ -116,7 +116,7 @@ function fetchFoodData(selectedFridgeID) {
   }
 
 // function fetchFoodData(selectedFridgeID) {
-  document.getElementById('error-message').textContent = '';
+  document.getElementById('error-message-fridgeID').textContent = '';
   fetch('/food-data?fridge_id=' + selectedFridgeID)
     .then(response => response.json())
     .then(data => {
@@ -298,7 +298,7 @@ $(document).ready(addFoodItem);
 <div class="grid-container">
   <div class="card3">
     <h3>Here's the contents of your fridge</h3>
-    <div id="error-message" style="color: red;"></div>
+    <div id="error-message-fridgeID" style="color: red;"></div>
     <button id="add-new">Add new</button>
     <button id="edit">Edit</button>
     <button id="delete">Delete</button>
