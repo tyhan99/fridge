@@ -108,8 +108,9 @@ app.post('/addfridge', async (req, res) => {
 
 app.get('/food-data', async (req, res) => {
   try {
-    const sql = 'SELECT food.*, users.user_id FROM food JOIN users ON food.owner = users.uid';
-    const result = await client.query(sql);
+    const fridge_id = req.query.fridge_id;
+    const sql = 'SELECT food.*, users.user_id FROM food JOIN users ON food.owner = users.uid WHERE food.fridge_id = $1';
+    const result = await client.query(sql, [fridge_id]);
     console.log(result); // Debugging
     const foodData = result.rows.map(row => ({
       food_id: row.food_id,
@@ -117,7 +118,7 @@ app.get('/food-data', async (req, res) => {
       qty: row.qty,
       expiry_date: row.expiry_date,
       note: row.note,
-      user_id: row.user_id, // Owner data
+      owner: row.owner, // Owner data
       discard: row.discard
     }));
     res.json(foodData);
@@ -126,6 +127,7 @@ app.get('/food-data', async (req, res) => {
     res.status(500).send('Error retrieving food data');
   }
 });
+
 
 app.post('/delete-food', async (req, res) => {
   try {

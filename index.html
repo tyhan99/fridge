@@ -45,7 +45,7 @@
 
 
 // Fetch the fridge IDs
-  let selectedFridgeID = 1;
+  let selectedFridgeID = 0;
 
   function updateUIDValue() {
     document.getElementsByName('selectedUserID')[0].value = selectedUserID;
@@ -74,13 +74,24 @@
     }
   });
 
-  $(window).on("load",function() {  
-  document.getElementById("fridge-list").addEventListener("change", function() {
-    selectedFridgeID = this.value;
-    updateUIDValue();
-    console.log("Selected Fridge ID:", selectedFridgeID);
-  });
+//  $(window).on("load",function() {  
+//  document.getElementById("fridge-list").addEventListener("change", function() {
+//    selectedFridgeID = this.value;
+//   updateUIDValue();
+//    console.log("Selected Fridge ID:", selectedFridgeID);
+//  });
+//    });
+
+$(window).on("load",function() {  
+    document.getElementById("fridge-list").addEventListener("change", function() {
+      selectedFridgeID = this.value;
+      fetchFoodData(selectedFridgeID); // Fetch food data for the selected fridge
+      updateUIDValue();
+      console.log("Selected Fridge ID:", selectedFridgeID);
+      console.log("updated UID Value:", updateUIDValue);
     });
+  });
+
 }
   
 //preload User and Fridge IDs
@@ -93,8 +104,8 @@
 
 // new code from 21/5
 
-function fetchFoodData() {
-  fetch('/food-data')
+function fetchFoodData(selectedFridgeID) {
+  fetch('/food-data?fridge_id=' + selectedFridgeID)
     .then(response => response.json())
     .then(data => {
       var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
