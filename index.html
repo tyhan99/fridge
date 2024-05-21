@@ -116,12 +116,17 @@ function fetchFoodData(selectedFridgeID) {
   }
 
 // function fetchFoodData(selectedFridgeID) {
+  // clears reminder-error to select a fridge 
   document.getElementById('error-message-fridgeID').textContent = '';
+
   fetch('/food-data?fridge_id=' + selectedFridgeID)
     .then(response => response.json())
     .then(data => {
       var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
       foodTable.innerHTML = ""; // Clear existing content
+
+        // Add a counter variable, for use as S/N
+              var counter = 1;
 
       for (var i = 0; i < data.length; i++) {
         var row = foodTable.insertRow();
@@ -131,7 +136,8 @@ function fetchFoodData(selectedFridgeID) {
         radio.name = 'food-item';
         radio.value = data[i].food_id;
         selectCell.appendChild(radio);
-        row.insertCell().textContent = data[i].food_id;
+      //  row.insertCell().textContent = data[i].food_id;
+        row.insertCell().textContent = counter++;
         row.insertCell().textContent = data[i].food_name;
         row.insertCell().textContent = data[i].qty;
 
@@ -306,7 +312,7 @@ $(document).ready(addFoodItem);
       <thead>
         <tr>
           <th>Select</th>
-          <th>Food ID</th>
+          <th>No.</th>
           <th>Food Name</th>
           <th>Quantity</th>
           <th>Expiry Date</th>
