@@ -107,6 +107,16 @@ $(window).on("load",function() {
 // new code from 21/5
 
 function fetchFoodData(selectedFridgeID) {
+  // Check if selectedFridgeID is set and is a valid ID
+  if (!selectedFridgeID || isNaN(selectedFridgeID)) {
+    console.error('Invalid Fridge ID:', selectedFridgeID);
+    // Show an error message to the user
+    document.getElementById('error-message-fridgeID').textContent = 'Pls (re-)select a fridge.';
+    return;
+  }
+
+// function fetchFoodData(selectedFridgeID) {
+  document.getElementById('error-message').textContent = '';
   fetch('/food-data?fridge_id=' + selectedFridgeID)
     .then(response => response.json())
     .then(data => {
@@ -288,6 +298,7 @@ $(document).ready(addFoodItem);
 <div class="grid-container">
   <div class="card3">
     <h3>Here's the contents of your fridge</h3>
+    <div id="error-message" style="color: red;"></div>
     <button id="add-new">Add new</button>
     <button id="edit">Edit</button>
     <button id="delete">Delete</button>
