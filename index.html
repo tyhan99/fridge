@@ -435,7 +435,129 @@ $(document).ready(editFoodItem);
 // end new code 21/5
 </script>
 
+</head>
 
+<body>
+
+    <div class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About...</a>
+            <a href="#contact">Contact</a>
+    </div>
+    <div class="grid-container">
+        <div class="welcome_card">
+            <h1>Welcome to PawFridge</h1>
+            <p>– the convenient and practical solution to managing what's in your fridge. 
+            <br>stretch your paw(s) today, and no more wasted food or forgotten items!</p>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="card1">
+            <h3>Let's get started ...</h3>
+            <p>Choose a user below:</p>
+                <select id="user-list"></select>
+                <!-- visual cue after selection -->
+                  <div id="user-selection-cue" style="display: none; color: green;">User selected</div>
+            <p><br>or sign up as a new user:</p>
+            <form action="/adduser" method="post">
+                <input type="text" name="user_id" placeholder="Enter your name">
+                <input type="text" name="email" placeholder="Enter your email (optional)">
+                <button class="plan-button" type="submit">Sign up</button>
+              </form>
+          
+        </div>
+
+      </div>
+    <!-- Add other sections here -->
+
+    <div class="grid-container">
+      <div class="card2">
+          <h3>Choose a fridge below:</h3>
+              <select id="fridge-list"></select>
+        <!-- notify user of fridge selection made -->
+              <div id="fridge-selection-cue" style="display: none; color: blue;"></div>
+  
+          <p><br>or add a new fridge:</p>
+          <form action="/addfridge" method="post">
+              <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
+              <input type="number" name="selectedUserID" hidden>
+              <button class="plan-button" type="submit">Add</button>
+            </form>
+      </div>
+    </div>
+
+<!-- new code from 21/5 -->
+<div class="grid-container">
+  <div class="card3">
+    <h3>Here's the contents of your fridge</h3>
+    <div id="error-message-fridgeID" style="color: red;"></div>
+    <button id="add-new">Add new</button>
+    <button id="edit">Edit</button>
+    <button id="delete">Delete</button>
+    <table id="food-table">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>No.</th>
+          <th>Food Name</th>
+          <th>Quantity</th>
+          <th>Expiry Date</th>
+          <th>Note</th>
+          <th>Owner</th>
+          <th>Discard</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Food data will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add New Food Item Modal -->
+<div id="addFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="add-food-form">
+      <label for="food-name">Name of food:</label><br>
+      <input type="text" id="food-name" name="food_name"><br>
+      <label for="qty">Quantity:</label><br>
+      <input type="number" id="qty" name="qty"><br>
+      <label for="expiry-date">Expiry date:</label><br>
+      <input type="date" id="expiry-date" name="expiry_date"><br>
+      <label for="note">Note:</label><br>
+      <input type="text" id="note" name="note"><br>
+      <label for="discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-add">
+    </form>
+  </div>
+</div>
+
+<!-- Edit Food Modal -->
+
+<!-- Edit Food Item Modal -->
+<div id="editFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="edit-food-form">
+      <label for="edit-food-name">Name of food:</label><br>
+      <input type="text" id="edit-food-name" name="food_name"><br>
+      <label for="edit-qty">Quantity:</label><br>
+      <input type="number" id="edit-qty" name="qty"><br>
+      <label for="edit-expiry-date">Expiry date:</label><br>
+      <input type="date" id="edit-expiry-date" name="expiry_date"><br>
+      <label for="edit-note">Note:</label><br>
+      <input type="text" id="edit-note" name="note"><br>
+      <label for="edit-discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="edit-discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-edit">
+    </form>
+  </div>
+</div>
 
 
 <!-- End of Edit Food Modal -->
