@@ -127,3 +127,33 @@ body {
     width: 45%;
   }
 }
+
+/* Styling for card3 */
+#card3 {
+  font-size: 14px;
+  overflow: hidden;
+}
+
+#card3 h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#card3 table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#card3 th, #card3 td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#card3 th {
+  background-color: #f2f2f2;
+}
+
+#card3 tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
