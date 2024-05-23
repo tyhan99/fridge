@@ -106,27 +106,9 @@ app.post('/addfridge', async (req, res) => {
 
 // new code from 21/5
 
-app.get('/food-data', async (req, res) => {
-  try {
-    const fridge_id = req.query.fridge_id;
-    const sql = 'SELECT food.*, users.user_id AS owner FROM food JOIN users ON food.owner = users.uid WHERE food.fridge_id = $1';
-    const result = await client.query(sql, [fridge_id]);
-    console.log(result); // Debugging
-    const foodData = result.rows.map(row => ({
-      food_id: row.food_id,
-      food_name: row.food_name,
-      qty: row.qty,
-      expiry_date: row.expiry_date,
-      note: row.note,
-      owner: row.owner, // Owner data
-      discard: row.discard
-    }));
-    res.json(foodData);
-  } catch (err) {
-    console.error('Error fetching food data:', err.stack);
-    res.status(500).send('Error retrieving food data');
-  }
-});
+// app.get('/food-data', async (req, res) => {
+// old code replaced with new codes below
+// });
 
 
 app.post('/delete-food', async (req, res) => {
@@ -179,6 +161,42 @@ app.post('/edit-food', async (req, res) => {
 
 
 // end new code 21/5
-// test
+
+// begin new code 23/5
+
+app.get('/food-data', async (req, res) => {
+  try {
+    const fridge_id = req.query.fridge_id;
+    const food_id = req.query.food_id;
+
+    if (food_id) {
+      // Fetch specific food item
+      const sql = 'SELECT * FROM food WHERE food_id = $1';
+      const result = await client.query(sql, [food_id]);
+      res.json(result.rows);
+    } else {
+      // Fetch all food items in the fridge
+      const sql = 'SELECT food.*, users.user_id AS owner FROM food JOIN users ON food.owner = users.uid WHERE food.fridge_id = $1';
+      const result = await client.query(sql, [fridge_id]);
+      const foodData = result.rows.map(row => ({
+        food_id: row.food_id,
+        food_name: row.food_name,
+        qty: row.qty,
+        expiry_date: row.expiry_date,
+        note: row.note,
+        owner: row.owner, // Owner data
+        discard: row.discard
+      }));
+      res.json(foodData);
+    }
+  } catch (err) {
+    console.error('Error fetching food data:', err.stack);
+    res.status(500).send('Error retrieving food data');
+  }
+});
+
+
+
+// end new code 23/5
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
