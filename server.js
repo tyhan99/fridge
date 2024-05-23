@@ -1,4 +1,4 @@
-// Needed for dotenv
+// Needed for dotenv to work
 require("dotenv").config();
 
 const express = require('express');

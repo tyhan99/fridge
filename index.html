@@ -109,6 +109,16 @@
     </div>
   </div>
 
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteFoodModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Are you sure you want to delete this food item?</p>
+      <button id="confirm-delete">Yes, delete it</button>
+      <button id="cancel-delete">Cancel</button>
+    </div>
+  </div>
+
   <div class="footer">
     <p>&copy; PawFridge. All rights reserved.</p>
     <p>Disclaimer: This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
@@ -290,6 +300,12 @@
             console.log('Success:', data);
             fetchFoodData(selectedFridgeID);
             modal.style.display = "none";
+            // Clear the form inputs
+            $('#food-name').val('');
+            $('#qty').val('');
+            $('#expiry-date').val('');
+            $('#note').val('');
+            $('#discard').prop('checked', false);
           },
           error: function(error) {
             console.error('Error adding food item:', error);
@@ -383,6 +399,51 @@
       $('#cancel-edit').click(function() {
         editModal.style.display = "none";
       });
+
+      // Delete food modal function
+      var deleteModal = document.getElementById("deleteFoodModal");
+      var deleteBtn = document.getElementById("delete");
+      var confirmDeleteBtn = document.getElementById("confirm-delete");
+      var cancelDeleteBtn = document.getElementById("cancel-delete");
+
+      deleteBtn.onclick = function() {
+        var selectedFoodItem = $('input[name="food-item"]:checked').val();
+
+        if (!selectedFoodItem) {
+          alert('Please select a food item to delete');
+          return;
+        }
+
+        deleteModal.style.display = "block";
+
+        confirmDeleteBtn.onclick = function() {
+          $.ajax({
+            url: '/delete-food',
+            type: 'POST',
+            data: JSON.stringify({ food_id: selectedFoodItem }),
+            contentType: 'application/json',
+            success: function(data) {
+              console.log('Success:', data);
+              fetchFoodData(selectedFridgeID);
+              deleteModal.style.display = "none";
+            },
+            error: function(error) {
+              console.error('Error deleting food item:', error);
+            }
+          });
+        };
+
+        cancelDeleteBtn.onclick = function() {
+          deleteModal.style.display = "none";
+        };
+      };
+
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        if (event.target == deleteModal) {
+          deleteModal.style.display = "none";
+        }
+      };
     });
   </script>
 </body>
