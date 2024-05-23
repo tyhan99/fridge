@@ -52,6 +52,7 @@
         console.log("Selected User ID:", selectedUserID);
 
         // Show the visual cue
+        userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
         userSelectionCue.style.display = "block";
         setTimeout(function() {
           userSelectionCue.style.display = "none";
@@ -330,14 +331,15 @@ $(document).ready(editFoodItem);
             <h3>Let's get started ...</h3>
             <p>Choose a user below:</p>
                 <select id="user-list"></select>
-                            <p><br>or sign up as a new user:</p>
+                <!-- visual cue after selection -->
+                  <div id="user-selection-cue" style="display: none; color: green;">User selected</div>
+            <p><br>or sign up as a new user:</p>
             <form action="/adduser" method="post">
                 <input type="text" name="user_id" placeholder="Enter your name">
                 <input type="text" name="email" placeholder="Enter your email (optional)">
                 <button class="plan-button" type="submit">Sign up</button>
               </form>
-          <!-- visual cue after selection -->
-            <div id="user-selection-cue" style="display: none; color: green;">User selected</div>
+          
         </div>
 
       </div>
@@ -356,21 +358,6 @@ $(document).ready(editFoodItem);
             </form>
       </div>
     </div>
-
-<!--    <div class="grid-container">
-        <div class="card3">
-            <h3>Here's the contents of your fridge</h3>
-                <select id="fridge-list"></select>
-                  
-            <p>add a food item:</p>
-              <form action="/addfood" method="post">
-                  <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
-                  <button class="plan-button" type="submit">Sign up</button>
-                </form>
-          </div>
-    
-    </div>
--->
 
 <!-- new code from 21/5 -->
 <div class="grid-container">
@@ -449,11 +436,6 @@ $(document).ready(editFoodItem);
 
 
 <!-- end new code 21/5 -->
-
-
-
-
-
 
 
     <div class="footer">
