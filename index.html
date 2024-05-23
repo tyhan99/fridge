@@ -20,7 +20,7 @@
 <script>
   // Fetch the User IDs  (updated with version 23/5)
 
-   function fetchUserIDs() {
+function fetchUserIDs() {
     var userList = document.getElementById("user-list");
     var userSelectionCue = document.getElementById("user-selection-cue");
 
@@ -39,8 +39,9 @@
               optionItem.value = data[i].uid;
               userList.appendChild(optionItem);
             }
-          // Manually trigger change event after populating options
-          userList.dispatchEvent(new Event('change'));
+            
+            // Manually trigger change event after populating options
+            userList.dispatchEvent(new Event('change'));
           })
           .catch(err => console.error('Error fetching user IDs:', err));
       }
@@ -48,10 +49,11 @@
 
     $(window).on("load", function() {
       document.getElementById("user-list").addEventListener("change", function() {
-        selectedUserID = this.value;
+        var selectedUserID = this.value;
+        var selectedUserName = this.options[this.selectedIndex].text;
         console.log("Selected User ID:", selectedUserID);
 
-        // Show the visual cue
+        // Show the visual cue with the selected user's name
         userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
         userSelectionCue.style.display = "block";
         setTimeout(function() {
@@ -60,6 +62,10 @@
       });
     });
   }
+
+  // Preload User IDs
+  $(document).ready(fetchUserIDs);
+  console.log("fetchUserIDs preloaded");
 
   // Preload User IDs
   $(document).ready(fetchUserIDs);
