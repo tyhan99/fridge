@@ -132,6 +132,8 @@ body {
 #card3 {
   font-size: 14px;
   overflow: hidden;
+  width: 90%;
+  max-width: 1200px; /* Double the max width */
 }
 
 #card3 h3 {
