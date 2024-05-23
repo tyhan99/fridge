@@ -39,6 +39,8 @@
               optionItem.value = data[i].uid;
               userList.appendChild(optionItem);
             }
+          // Manually trigger change event after populating options
+          userList.dispatchEvent(new Event('change'));
           })
           .catch(err => console.error('Error fetching user IDs:', err));
       }
