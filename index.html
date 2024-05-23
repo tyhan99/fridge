@@ -67,70 +67,67 @@ function fetchUserIDs() {
   $(document).ready(fetchUserIDs);
   console.log("fetchUserIDs preloaded");
 
-  // Preload User IDs
-  $(document).ready(fetchUserIDs);
-  console.log("fetchUserIDs preloaded");
-
 // end fetch user ids
 
 // Fetch the fridge IDs
-  let selectedFridgeID = 1;
-  console.log(typeof selectedFridgeID);
-  console.log(selectedFridgeID);
+// updated with new code 23/5
 
-  function updateUIDValue() {
-    document.getElementsByName('selectedUserID')[0].value = selectedUserID;
-  }
 
-  function fetchFridgeIDs() {
-  var fridgeList = document.getElementById("fridge-list");
+function fetchFridgeIDs() {
+    var fridgeList = document.getElementById("fridge-list");
+    var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
 
-  // Add a click event listener to the dropdown
-  fridgeList.addEventListener('click', function() {
-    // Check if the options have already been loaded
-    if (fridgeList.options.length === 0) {
-      fetch('/fridge-ids')
-        .then(response => response.json())
-        .then(data => {
-          fridgeList.innerHTML = ""; // Clear existing content
+    // Add a click event listener to the dropdown
+    fridgeList.addEventListener('click', function() {
+      // Check if the options have already been loaded
+      if (fridgeList.options.length === 0) {
+        fetch('/fridge-ids')
+          .then(response => response.json())
+          .then(data => {
+            fridgeList.innerHTML = ""; // Clear existing content
 
-          for (var i = 0; i < data.length; i++) {
-            var optionItem = document.createElement('option');
-            optionItem.textContent = data[i].fridge_name;
-            optionItem.value = data[i].fridge_id;
-            fridgeList.appendChild(optionItem);
-          }
-        })
-        .catch(err => console.error('Error fetching Fridge IDs:', err));
-    }
-  });
-
-//  $(window).on("load",function() {  
-//  document.getElementById("fridge-list").addEventListener("change", function() {
-//    selectedFridgeID = this.value;
-//   updateUIDValue();
-//    console.log("Selected Fridge ID:", selectedFridgeID);
-//  });
-//    });
-
-$(window).on("load",function() {  
-    document.getElementById("fridge-list").addEventListener("change", function() {
-      selectedFridgeID = this.value;
-      fetchFoodData(selectedFridgeID); // Fetch food data for the selected fridge
-      updateUIDValue();
-      console.log("Selected Fridge ID:", selectedFridgeID);
-      console.log("updated UID Value:", updateUIDValue);
+            for (var i = 0; i < data.length; i++) {
+              var optionItem = document.createElement("option");
+              optionItem.textContent = data[i].fridge_name;
+              optionItem.value = data[i].fridge_id;
+              fridgeList.appendChild(optionItem);
+            }
+            
+            // Manually trigger change event after populating options
+            fridgeList.dispatchEvent(new Event('change'));
+          })
+          .catch(err => console.error('Error fetching Fridge IDs:', err));
+      }
     });
-  });
 
+    $(window).on("load", function() {
+      document.getElementById("fridge-list").addEventListener("change", function() {
+        var selectedFridgeID = this.value;
+        var selectedFridgeName = this.options[this.selectedIndex].text;
+        console.log("Selected Fridge ID:", selectedFridgeID);
+
+        // Fetch food data for the selected fridge
+        fetchFoodData(selectedFridgeID);
+
+        // Update UID value
+        updateUIDValue();
+
+        // Show the visual cue with the selected fridge's name
+        fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
+        fridgeSelectionCue.style.display = "block";
+        setTimeout(function() {
+          fridgeSelectionCue.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+      });
+    });
 }
-  
-//preload User and Fridge IDs
+
+  // Preload User and Fridge IDs
   $(document).ready(fetchUserIDs);
-    /* document.body.addEventListener('load', fetchUserIDs); */
-  console.log("fetchUserIDs preloaded")
   $(document).ready(fetchFridgeIDs);
-  console.log("fetchFridgeIDs preloaded")
+  console.log("fetchUserIDs and fetchFridgeIDs preloaded");
+
+// end new code 23/5 for fetchFridgeIDs
 
 
 // new code from 21/5
@@ -355,7 +352,9 @@ $(document).ready(editFoodItem);
       <div class="card2">
           <h3>Choose a fridge below:</h3>
               <select id="fridge-list"></select>
-              
+        <!-- notify user of fridge selection made -->
+              <div id="fridge-selection-cue" style="display: none; color: blue;"></div>
+  
           <p><br>or add a new fridge:</p>
           <form action="/addfridge" method="post">
               <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
