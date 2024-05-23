@@ -468,7 +468,8 @@ $(document).ready(editFoodItem);
       }
       
     // end of add new food listener
-
+  </script>
+  <script>
   // listener for the edit food button
     // Get the modal
     var editModal = document.getElementById("editFoodModal");
@@ -484,47 +485,47 @@ $(document).ready(editFoodItem);
     if (!selectedFoodItem) {
       alert('Please select a food item to edit');
     return;
-  }
+    }
 
-  // Fetch the food item data and fill the form inputs
-  fetch('/food-data?food_id=' + selectedFoodItem)
-  .then(response => response.json())
-  .then(data => {
-    $('#edit-food-name').val(data.food_name);
-    $('#edit-qty').val(data.qty);
+    // Fetch the food item data and fill the form inputs
+    fetch('/food-data?food_id=' + selectedFoodItem)
+      .then(response => response.json())
+      .then(data => {
+        $('#edit-food-name').val(data.food_name);
+        $('#edit-qty').val(data.qty);
 
     // Check if expiry_date exists and is in the correct format
-    if (data.expiry_date && typeof data.expiry_date === 'string') {
-      $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
-    } else {
-      $('#edit-expiry-date').val(''); // Clear the input field if expiry_date is not in the correct format
+      if (data.expiry_date && typeof data.expiry_date === 'string') {
+        $('#edit-expiry-date').val(data.expiry_date.split('T')[0]); // Format the date string
+      } else {
+        $('#edit-expiry-date').val(''); // Clear the input field if expiry_date is not in the correct format
+        }
+
+      $('#edit-note').val(data.note);
+      $('#edit-discard').prop('checked', data.discard); // Set the 'checked' property based on the 'discard' value
+
+      editModal.style.display = "block";
+    })
+    .catch(err => console.error('Error fetching food data:', err));
+    
+    // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        editModal.style.display = "none";
       }
 
-    $('#edit-note').val(data.note);
-    $('#edit-discard').prop('checked', data.discard); // Set the 'checked' property based on the 'discard' value
+    // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == editModal) {
+          editModal.style.display = "none";
+        }
+      }
 
-    editModal.style.display = "block";
-  })
-  .catch(err => console.error('Error fetching food data:', err));
-    
-// Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    editModal.style.display = "none";
-  }
-
-// When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == editModal) {
-      editModal.style.display = "none";
     }
-  }
-
-}
   // End of edit food listener
-
+  </script>
       
       
   </script>
