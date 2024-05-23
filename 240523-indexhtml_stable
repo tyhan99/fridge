@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<!-- this is index.html-->
+
+<head>
+    <title>Welcome to PawFridge!</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9LYYYZ9ZDD"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-9LYYYZ9ZDD');
+      </script>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About...</a>
+            <a href="#contact">Contact</a>
+    </div>
+    <div class="grid-container">
+        <div class="welcome_card">
+            <h1>Welcome to PawFridge</h1>
+            <p>– the convenient and practical solution to managing what's in your fridge. 
+            <br>stretch your paw(s) today, and no more wasted food or forgotten items!</p>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="card1">
+            <h3>Let's get started ...</h3>
+            <p>Choose a user below:</p>
+                <select id="user-list"></select>
+                <!-- visual cue after selection -->
+                <!-- <div id="user-selection-cue" style="display: none; color: green;">User selected</div> -->
+                  <div id="user-selection-cue" style="display: none; color: green;"></div>
+            <p><br>or sign up as a new user:</p>
+            <form action="/adduser" method="post">
+                <input type="text" name="user_id" placeholder="Enter your name">
+                <input type="text" name="email" placeholder="Enter your email (optional)">
+                <button class="plan-button" type="submit">Sign up</button>
+              </form>
+          
+        </div>
+
+      </div>
+    <!-- Add other sections here -->
+
+    <div class="grid-container">
+      <div class="card2">
+          <h3>Choose a fridge below:</h3>
+              <select id="fridge-list"></select>
+        <!-- notify user of fridge selection made -->
+              <div id="fridge-selection-cue" style="display: none; color: red;"></div>
+  
+          <p><br>or add a new fridge:</p>
+          <form action="/addfridge" method="post">
+              <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
+              <input type="number" name="selectedUserID" hidden>
+              <button class="plan-button" type="submit">Add</button>
+            </form>
+      </div>
+    </div>
+
+<!-- new code from 21/5 -->
+<div class="grid-container">
+  <div class="card3">
+    <h3 id="fridge-content-header">Here's the contents of your fridge</h3>
+    <div id="error-message-fridgeID" style="color: red;"></div>
+    <button id="add-new">Add new</button>
+    <button id="edit">Edit</button>
+    <button id="delete">Delete</button>
+    <table id="food-table">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>No.</th>
+          <th>Food Name</th>
+          <th>Quantity</th>
+          <th>Expiry Date</th>
+          <th>Note</th>
+          <th>Owner</th>
+          <th>Discard</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Food data will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add New Food Item Modal -->
+<div id="addFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="add-food-form">
+      <label for="food-name">Name of food:</label><br>
+      <input type="text" id="food-name" name="food_name"><br>
+      <label for="qty">Quantity:</label><br>
+      <input type="number" id="qty" name="qty"><br>
+      <label for="expiry-date">Expiry date:</label><br>
+      <input type="date" id="expiry-date" name="expiry_date"><br>
+      <label for="note">Note:</label><br>
+      <input type="text" id="note" name="note"><br>
+      <label for="discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-add">
+    </form>
+  </div>
+</div>
+
+<!-- Edit Food Modal -->
+
+<!-- Edit Food Item Modal -->
+<div id="editFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="edit-food-form">
+      <label for="edit-food-name">Name of food:</label><br>
+      <input type="text" id="edit-food-name" name="food_name"><br>
+      <label for="edit-qty">Quantity:</label><br>
+      <input type="number" id="edit-qty" name="qty"><br>
+      <label for="edit-expiry-date">Expiry date:</label><br>
+      <input type="date" id="edit-expiry-date" name="expiry_date"><br>
+      <label for="edit-note">Note:</label><br>
+      <input type="text" id="edit-note" name="note"><br>
+      <label for="edit-discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="edit-discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-edit">
+    </form>
+  </div>
+</div>
+
+
+<!-- End of Edit Food Modal -->
+
+<!-- shifted script below into body-->
+
+<script>
+  // Fetch the User IDs  (updated with version 23/5)
+
+function fetchUserIDs() {
+    var userList = document.getElementById("user-list");
+    var userSelectionCue = document.getElementById("user-selection-cue");
+
+    // Add a click event listener to the dropdown
+    userList.addEventListener('click', function() {
+      // Check if the options have already been loaded
+      if (userList.options.length === 0) {
+        fetch('/user-ids')
+          .then(response => response.json())
+          .then(data => {
+            userList.innerHTML = ""; // Clear existing content
+
+            for (var i = 0; i < data.length; i++) {
+              var optionItem = document.createElement("option");
+              optionItem.textContent = data[i].user_id;
+              optionItem.value = data[i].uid;
+              userList.appendChild(optionItem);
+            }
+            
+            // Manually trigger change event after populating options
+            userList.dispatchEvent(new Event('change'));
+          })
+          .catch(err => console.error('Error fetching user IDs:', err));
+      }
+    });
+
+    $(window).on("load", function() {
+      document.getElementById("user-list").addEventListener("change", function() {
+        var selectedUserID = this.value;
+        var selectedUserName = this.options[this.selectedIndex].text;
+        console.log("Selected User ID:", selectedUserID);
+
+        // Show the visual cue with the selected user's name
+        userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
+        userSelectionCue.style.display = "block";
+        setTimeout(function() {
+          userSelectionCue.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+      });
+    });
+  }
+
+  // Preload User IDs
+  $(document).ready(fetchUserIDs);
+  console.log("fetchUserIDs preloaded");
+
+// end fetch user ids
+
+// Fetch the fridge IDs
+// updated with new code 23/5
+
+
+function fetchFridgeIDs() {
+    var fridgeList = document.getElementById("fridge-list");
+    var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
+    var fridgeContentHeader = document.getElementById("fridge-content-header");
+
+    // Add a click event listener to the dropdown
+    fridgeList.addEventListener('click', function() {
+      // Check if the options have already been loaded
+      if (fridgeList.options.length === 0) {
+        fetch('/fridge-ids')
+          .then(response => response.json())
+          .then(data => {
+            fridgeList.innerHTML = ""; // Clear existing content
+
+            for (var i = 0; i < data.length; i++) {
+              var optionItem = document.createElement("option");
+              optionItem.textContent = data[i].fridge_name;
+              optionItem.value = data[i].fridge_id;
+              fridgeList.appendChild(optionItem);
+            }
+            
+            // Manually trigger change event after populating options
+            fridgeList.dispatchEvent(new Event('change'));
+          })
+          .catch(err => console.error('Error fetching Fridge IDs:', err));
+      }
+    });
+
+    $(window).on("load", function() {
+      document.getElementById("fridge-list").addEventListener("change", function() {
+        var selectedFridgeID = this.value;
+        var selectedFridgeName = this.options[this.selectedIndex].text;
+        console.log("Selected Fridge ID:", selectedFridgeID);
+
+        // Fetch food data for the selected fridge
+        fetchFoodData(selectedFridgeID);
+
+        // Update UID value
+        updateUIDValue();
+
+        // Show the visual cue with the selected fridge's name
+        fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
+        fridgeSelectionCue.style.display = "block";
+        setTimeout(function() {
+          fridgeSelectionCue.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+      // Update the fridge content header
+      fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
+      });
+    });
+}
+
+  // Preload User and Fridge IDs
+  $(document).ready(fetchUserIDs);
+  $(document).ready(fetchFridgeIDs);
+  console.log("fetchUserIDs and fetchFridgeIDs preloaded");
+
+  function fetchFoodData(fridgeID) {
+    // Function implementation
+  }
+
+  function updateUIDValue() {
+    // Function implementation
+  }
+
+  // end new code 23/5 for fetchFridgeIDs
+
+
+// new code from 21/5
+
+function fetchFoodData(selectedFridgeID) {
+  // Check if selectedFridgeID is set and is a valid ID
+  if (!selectedFridgeID || isNaN(selectedFridgeID)) {
+    console.error('Invalid Fridge ID:', selectedFridgeID);
+    // Show an error message to the user
+    document.getElementById('error-message-fridgeID').textContent = 'Pls (re-)select a fridge.';
+    return;
+  }
+
+// function fetchFoodData(selectedFridgeID) {
+  // clears reminder-error to select a fridge 
+  document.getElementById('error-message-fridgeID').textContent = '';
+
+  fetch('/food-data?fridge_id=' + selectedFridgeID)
+    .then(response => response.json())
+    .then(data => {
+      var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
+      foodTable.innerHTML = ""; // Clear existing content
+
+        // Add a counter variable, for use as S/N
+              var counter = 1;
+
+      for (var i = 0; i < data.length; i++) {
+        var row = foodTable.insertRow();
+        var selectCell = row.insertCell();
+        var radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'food-item';
+        radio.value = data[i].food_id;
+        selectCell.appendChild(radio);
+      //  row.insertCell().textContent = data[i].food_id;
+        row.insertCell().textContent = counter++;
+        row.insertCell().textContent = data[i].food_name;
+        row.insertCell().textContent = data[i].qty;
+
+      // Format the expiry_date string
+        var expiryDate = new Date(data[i].expiry_date);
+        row.insertCell().textContent = expiryDate.toISOString().split('T')[0];
+
+        row.insertCell().textContent = data[i].note;
+        row.insertCell().textContent = data[i].owner; // Owner data
+        row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
+      }
+    })
+    .catch(err => console.error('Error fetching food data:', err));
+}
+
+$(document).ready(function() {
+  $('#delete').click(function() {
+  var selectedFoodItem = $('input[name="food-item"]:checked');
+  if (selectedFoodItem.length > 0) {
+    if (confirm('Confirm to delete food item?')) {
+      $.ajax({
+        url: '/delete-food',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ food_id: selectedFoodItem.val() }),
+        success: function(data) {
+          console.log('Success:', data);
+          fetchFoodData(selectedFridgeID); // Refresh the food data
+        },
+        error: function(error) {
+          console.error('Error:', error);
+        }
+      });
+    }
+  } else {
+    alert('Please select a food item to delete');
+  }
+  });
+
+
+});
+
+// Fetch the food data when the page loads
+$(document).ready(fetchFoodData);
+
+
+// add food modal function
+
+function addFoodItem() {
+  $('#add-food-form').submit(function(event) {
+    event.preventDefault(); // Prevent the form from being submitted normally
+
+    // Get the selected fridge and user IDs from the dropdowns
+    var selectedFridgeID = $('#fridge-list').val();
+    var selectedUserID = $('#user-list').val();
+
+    // Create an object to hold the form data
+    var formData = {
+      food_name: $('#food-name').val(),
+      qty: $('#qty').val(),
+      expiry_date: $('#expiry-date').val(),
+      note: $('#note').val(),
+      discard: $('#discard').is(':checked'), // This will be true if the checkbox is checked, false otherwise
+      fridge_id: selectedFridgeID,
+      owner: selectedUserID
+    };
+
+  $.ajax({
+      url: '/add-food',
+      type: 'POST',
+      data: JSON.stringify(formData), // Convert the form data to JSON
+      contentType: 'application/json',  // Set the data type to JSON
+      success: function(data) {
+        console.log('Success:', data);
+        fetchFoodData(selectedFridgeID); // Refresh the food data from selected fridge
+        modal.style.display = "none"; // Close the modal
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+
+// Close the modal when the 'Cancel' button is clicked
+  $('#cancel-add').click(function() {
+    modal.style.display = "none";
+  });
+
+}
+
+// Call the function when the document is ready
+$(document).ready(addFoodItem);
+
+// end add food modal
+
+// edit food modal function
+
+function editFoodItem() {
+  $('#edit-food-form').submit(function(event) {
+    event.preventDefault(); // Prevent the form from being submitted normally
+
+    // Get the selected food item
+    var selectedFoodItem = $('input[name="food-item"]:checked').val();
+
+    if (!selectedFoodItem) {
+      alert('Please select a food item to edit');
+      return;
+    }
+
+    // Create an object to hold the form data
+    var formData = {
+      food_name: $('#edit-food-name').val(),
+      qty: $('#edit-qty').val(),
+      expiry_date: $('#edit-expiry-date').val(),
+      note: $('#edit-note').val(),
+      discard: $('#edit-discard').prop('checked'),
+      food_id: selectedFoodItem,
+      owner: selectedUserID
+    };
+
+    $.ajax({
+      url: '/edit-food',
+      type: 'POST',
+      data: JSON.stringify(formData), // Convert the form data to JSON
+      contentType: 'application/json',  // Set the data type to JSON
+      success: function(data) {
+        console.log('Success:', data);
+        fetchFoodData(selectedFridgeID); // Refresh the food data
+        editModal.style.display = "none"; // Close the modal
+      },
+      error: function(error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+
+  // Close the modal when the 'Cancel' button is clicked
+  $('#cancel-edit').click(function() {
+    editModal.style.display = "none";
+  });
+}
+
+// Call the function when the document is ready
+$(document).ready(editFoodItem);
+
+// end new code 21/5
+</script>
+
+<!-- end shifted script -->
+
+<!-- end new code 21/5 -->
+
+
+    <div class="footer">
+        <p>&copy; PawFridge. All rights reserved.</p>
+        <p>Disclaimer:
+            This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
+    </div>
+
+  <script>
+    // listener for the add new food button
+      
+      // Get the modal
+      var modal = document.getElementById("addFoodModal");
+      
+      // Get the button that opens the modal
+      var btn = document.getElementById("add-new");
+      
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      
+      // When the user clicks the button, open the modal 
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+      
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      
+    // end of add new food listener
+  </script>
+
+// new code from 23/5
+
+<script>
+  // listener for the edit food button
+  // Get the modal
+  var editModal = document.getElementById("editFoodModal");
+
+  // Get the button that opens the modal
+  var editBtn = document.getElementById("edit");
+
+  // When the user clicks the button, open the modal 
+  editBtn.onclick = function() {
+    // Get the selected food item
+    var selectedFoodItem = $('input[name="food-item"]:checked').val();
+
+    if (!selectedFoodItem) {
+      alert('Please select a food item to edit');
+      return;
+    }
+
+    // Fetch the food item data and fill the form inputs
+    fetch('/food-data?food_id=' + selectedFoodItem)
+      .then(response => response.json())
+      .then(data => {
+        // Ensure data is correctly fetched
+        if (data && data.length > 0) {
+          var foodItem = data[0]; // Assuming the response is an array with one item
+          $('#edit-food-name').val(foodItem.food_name);
+          $('#edit-qty').val(foodItem.qty);
+
+          // Check if expiry_date exists and is in the correct format
+          if (foodItem.expiry_date && typeof foodItem.expiry_date === 'string') {
+            $('#edit-expiry-date').val(foodItem.expiry_date.split('T')[0]); // Format the date string
+          } else {
+            $('#edit-expiry-date').val(''); // Clear the input field if expiry_date is not in the correct format
+          }
+
+          $('#edit-note').val(foodItem.note);
+          $('#edit-discard').prop('checked', foodItem.discard); // Set the 'checked' property based on the 'discard' value
+
+          editModal.style.display = "block";
+        } else {
+          console.error('Error: Food item data is empty');
+        }
+      })
+      .catch(err => console.error('Error fetching food data:', err));
+    
+    // Get the <span> element that closes the modal
+    var closeBtn = document.getElementsByClassName("close")[1]; // Select the correct close button for edit modal
+
+    // When the user clicks on <span> (x), close the modal
+    closeBtn.onclick = function() {
+      editModal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == editModal) {
+        editModal.style.display = "none";
+      }
+    }
+  }
+  // End of edit food listener
+</script>
+
+
+</body>
+
+</html>
