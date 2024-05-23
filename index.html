@@ -335,7 +335,8 @@ $(document).ready(editFoodItem);
             <p>Choose a user below:</p>
                 <select id="user-list"></select>
                 <!-- visual cue after selection -->
-                  <div id="user-selection-cue" style="display: none; color: green;">User selected</div>
+                <!-- <div id="user-selection-cue" style="display: none; color: green;">User selected</div> -->
+                  <div id="user-selection-cue" style="display: none; color: green;"></div>
             <p><br>or sign up as a new user:</p>
             <form action="/adduser" method="post">
                 <input type="text" name="user_id" placeholder="Enter your name">
@@ -353,7 +354,7 @@ $(document).ready(editFoodItem);
           <h3>Choose a fridge below:</h3>
               <select id="fridge-list"></select>
         <!-- notify user of fridge selection made -->
-              <div id="fridge-selection-cue" style="display: none; color: blue;"></div>
+              <div id="fridge-selection-cue" style="display: none; color: red;"></div>
   
           <p><br>or add a new fridge:</p>
           <form action="/addfridge" method="post">
