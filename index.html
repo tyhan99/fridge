@@ -72,7 +72,7 @@
 <!-- new code from 21/5 -->
 <div class="grid-container">
   <div class="card3">
-    <h3>Here's the contents of your fridge</h3>
+    <h3 id="fridge-content-header">Here's the contents of your fridge</h3>
     <div id="error-message-fridgeID" style="color: red;"></div>
     <button id="add-new">Add new</button>
     <button id="edit">Edit</button>
@@ -205,6 +205,7 @@ function fetchUserIDs() {
 function fetchFridgeIDs() {
     var fridgeList = document.getElementById("fridge-list");
     var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
+    var fridgeContentHeader = document.getElementById("fridge-content-header");
 
     // Add a click event listener to the dropdown
     fridgeList.addEventListener('click', function() {
@@ -247,6 +248,8 @@ function fetchFridgeIDs() {
         setTimeout(function() {
           fridgeSelectionCue.style.display = "none";
         }, 3000); // Hide after 3 seconds
+      // Update the fridge content header
+      fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
       });
     });
 }
@@ -256,7 +259,15 @@ function fetchFridgeIDs() {
   $(document).ready(fetchFridgeIDs);
   console.log("fetchUserIDs and fetchFridgeIDs preloaded");
 
-// end new code 23/5 for fetchFridgeIDs
+  function fetchFoodData(fridgeID) {
+    // Function implementation
+  }
+
+  function updateUIDValue() {
+    // Function implementation
+  }
+
+  // end new code 23/5 for fetchFridgeIDs
 
 
 // new code from 21/5
