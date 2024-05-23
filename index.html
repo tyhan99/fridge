@@ -18,11 +18,11 @@
 
 
 <script>
-  // Fetch the User IDs
-    let selectedUserID = 1;
-    
-    function fetchUserIDs() {
+  // Fetch the User IDs  (updated with version 23/5)
+
+   function fetchUserIDs() {
     var userList = document.getElementById("user-list");
+    var userSelectionCue = document.getElementById("user-selection-cue");
 
     // Add a click event listener to the dropdown
     userList.addEventListener('click', function() {
@@ -43,16 +43,26 @@
           .catch(err => console.error('Error fetching user IDs:', err));
       }
     });
-  
-  $(window).on("load",function() {  
-  document.getElementById("user-list").addEventListener("change", function() {
-    selectedUserID = this.value;
-    console.log("Selected User ID:", selectedUserID);
-  });
+
+    $(window).on("load", function() {
+      document.getElementById("user-list").addEventListener("change", function() {
+        selectedUserID = this.value;
+        console.log("Selected User ID:", selectedUserID);
+
+        // Show the visual cue
+        userSelectionCue.style.display = "block";
+        setTimeout(function() {
+          userSelectionCue.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+      });
     });
   }
-  
 
+  // Preload User IDs
+  $(document).ready(fetchUserIDs);
+  console.log("fetchUserIDs preloaded");
+
+// end fetch user ids
 
 // Fetch the fridge IDs
   let selectedFridgeID = 1;
@@ -324,6 +334,8 @@ $(document).ready(editFoodItem);
                 <input type="text" name="email" placeholder="Enter your email (optional)">
                 <button class="plan-button" type="submit">Sign up</button>
               </form>
+          <!-- visual cue after selection -->
+            <div id="user-selection-cue" style="display: none; color: green;">User selected</div>
         </div>
 
       </div>
