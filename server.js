@@ -13,7 +13,6 @@ app.set('view engine', 'ejs');
 // Needed for parsing JSON data
 const { bodyParser } = require('body-parser'); 
 
-
 // Needed for public directory
 app.use(express.static(__dirname));
 //app.use(express.static("views"));
@@ -22,7 +21,6 @@ app.use(express.static(__dirname));
 // Needed for parsing form data
 app.use(express.json());       
 app.use(express.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 // Database connection details (replace with your actual values)
 const url = process.env.DATABASE_URL; // Replace with your actual Render URL
@@ -44,7 +42,6 @@ app.get('/', function(req, res) {
 
     res.render('index');
 });
-
 
 
 app.get('/user-ids', async (req, res) => {
@@ -107,7 +104,7 @@ app.post('/addfridge', async (req, res) => {
 
 });
 
-// new code from 23/5
+// new code from 21/5
 
 // app.get('/food-data', async (req, res) => {
 // old code replaced with new codes below
@@ -126,39 +123,22 @@ app.post('/delete-food', async (req, res) => {
   }
 });
 
-const foodItems = []; // Example array to hold food items
-
-app.post('/add-food', (req, res) => {
+app.post('/add-food', async (req, res) => {
   try {
     const { food_name, qty, expiry_date, note, discard, fridge_id, owner } = req.body;
-
-    // Add new food item to the array
-    const newFoodItem = {
-      food_id: foodItems.length + 1,
-      food_name,
-      qty,
-      expiry_date,
-      note,
-      discard,
-      fridge_id,
-      owner
-    };
-
-    foodItems.push(newFoodItem);
-
-    res.status(201).json({ message: 'Food item added successfully', foodItem: newFoodItem });
-  } catch (error) {
-    console.error('Error adding new food item:', error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+    const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, owner) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, fridge_id, owner]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+      // Clear the form inputs
+        $('#food-name').val('');
+        $('#qty').val('');
+        $('#expiry-date').val('');
+        $('#note').val('');
+        $('#discard').prop('checked', false);
+  } catch (err) {
+    console.error('Error adding new food item:', err.stack);
+    res.status(500).send('Error adding new food item');
   }
-});
-
-app.get('/food-data', (req, res) => {
-  const fridge_id = req.query.fridge_id;
-  const filteredFoodItems = foodItems.filter(item => item.fridge_id === parseInt(fridge_id));
-  res.json(filteredFoodItems);
 });
 
 // app.post('/edit-food', async (req, res) => {
