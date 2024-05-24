@@ -1,105 +1,17 @@
-/* Reset default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Set up mobile-first responsive design */
-body {
-  font-family: Verdana, Geneva, Tahoma, Calibri, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  background-image: url('240515-fridge_bgrnd02.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.navbar {
-  display: flex;
-  justify-content: left;
-  background-color: #32DBFA;
-  overflow: hidden;
-  color: white;
-  padding: 10px 12px;
-  gap: 10px;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  padding: 8px 10px;
-}
-
-.navbar a:hover {
-  background-color: white;
-  color: black;
-}
-
-.navbar a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-.grid-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-}
-
-.card {
-  width: 90%;
-  max-width: 600px;
-  padding: 20px;
-  margin: 10px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#card1, #card2 {
-  min-height: 250px; /* Adjust height as needed */
-}
-
-/* Welcome card styles */
-.welcome_card {
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  margin: 20px auto;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.welcome_card h1 {
-  font-size: 2em; /* Large font size for header */
-  margin-bottom: 10px;
-}
-
-.welcome_card p {
-  font-size: 1.2em; /* Clear, readable text */
-  color: #555; /* Subtle, dark-grey text color for readability */
-}
-
 /* About page styles */
 .about-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
+  gap: 5px; /* Reduced gap to bring cards closer */
+  padding: 5px; /* Reduced padding to bring cards closer */
 }
 
 .about_title_card, .about_story_card {
   width: 90%;
   max-width: 1200px;
-  padding: 20px;
-  margin: 20px auto;
+  padding: 15px; /* Reduced padding to bring cards closer */
+  margin: 10px auto; /* Reduced margin to bring cards closer */
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -120,24 +32,7 @@ body {
   margin-left: 20px;
 }
 
-#user-list,
-#fridge-list {
-  width: 100%;
-  max-width: 200px;
-  padding: 10px;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-.user-selection-cue, .fridge-selection-cue {
-  visibility: hidden;
-  color: green;
-  height: 20px; /* Keep space for the cue */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Footer styles */
 .footer {
   width: 100%;
   padding: 10px;
@@ -157,96 +52,4 @@ body {
 
 .footer a:hover {
   text-decoration: underline;
-}
-
-/* Styles for modals */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 500px;
-  border-radius: 10px;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Media queries for responsiveness */
-@media (min-width: 600px) {
-  .grid-container {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
-  .card {
-    width: 45%;
-  }
-
-  .footer {
-    text-align: left;
-    font-size: 12px;
-  }
-}
-
-/* Styling for card3 */
-#card3 {
-  font-size: 14px;
-  overflow: hidden;
-  width: 90%;
-  max-width: 1200px; /* Double the max width */
-}
-
-#card3 h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-#card3 table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#card3 th, #card3 td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-#card3 th {
-  background-color: #f2f2f2;
-}
-
-#card3 tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* Styling for expired food items */
-.expired {
-  color: red;
-  background-color: #ffdddd;
 }
