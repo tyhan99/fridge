@@ -16,7 +16,7 @@
     <div class="welcome_card">
       <h1>Welcome to PawFridge</h1>
       <p>– the convenient and practical solution to managing what's in your fridge. 
-      <br>Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
+      <br>Here's an opportunity to play an active role (for once) in managing your refrigerator. Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
       <h3>Let's get started ...</h3>
       <p>Choose a user below:</p>
       <select id="user-list"></select>
-      <div id="user-selection-cue" style="display: none; color: green;"></div>
+      <div id="user-selection-cue" class="user-selection-cue"></div>
       <p><br>or sign up as a new user:</p>
       <form action="/adduser" method="post">
         <input type="text" name="user_id" placeholder="Enter your name">
@@ -39,7 +39,7 @@
     <div id="card2" class="card" style="display: none;">
       <h3>Choose a fridge below:</h3>
       <select id="fridge-list"></select>
-      <div id="fridge-selection-cue" style="display: none; color: blue;"></div>
+      <div id="fridge-selection-cue" class="fridge-selection-cue"></div>
       <p><br>or add a new fridge:</p>
       <form action="/addfridge" method="post">
         <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
@@ -75,6 +75,7 @@
       </table>
     </div>
   </div>
+ 
 
   <!-- Add New Food Item Modal -->
   <div id="addFoodModal" class="modal">
