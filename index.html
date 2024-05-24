@@ -173,15 +173,15 @@
     <p>Disclaimer: This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
   </div>
 
-  <script>
+<script>
     // Define selectedUserID and selectedFridgeID in the global scope
     var selectedUserID;
     var selectedFridgeID;
-
+  
     function fetchUserIDs() {
       var userList = document.getElementById("user-list");
       var userSelectionCue = document.getElementById("user-selection-cue");
-
+  
       userList.addEventListener('click', function() {
         if (userList.options.length === 0) {
           fetch('/user-ids')
@@ -199,7 +199,7 @@
             .catch(err => console.error('Error fetching user IDs:', err));
         }
       });
-
+  
       $(window).on("load", function() {
         document.getElementById("user-list").addEventListener("change", function() {
           selectedUserID = this.value;
@@ -216,12 +216,12 @@
         });
       });
     }
-
+  
     function fetchFridgeIDs() {
       var fridgeList = document.getElementById("fridge-list");
       var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
       var fridgeContentHeader = document.getElementById("fridge-content-header");
-
+  
       fridgeList.addEventListener('click', function() {
         if (fridgeList.options.length === 0) {
           fetch('/fridge-ids')
@@ -239,7 +239,7 @@
             .catch(err => console.error('Error fetching Fridge IDs:', err));
         }
       });
-
+  
       $(window).on("load", function() {
         document.getElementById("fridge-list").addEventListener("change", function() {
           selectedFridgeID = this.value;
@@ -252,31 +252,31 @@
           setTimeout(function() {
             fridgeSelectionCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
-
+  
           // Update the fridge content header
           fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
-
+  
           // Show card3 when a fridge is selected
           document.getElementById("card3").style.display = "block";
         });
       });
     }
-
+  
     $(document).ready(fetchUserIDs);
     $(document).ready(fetchFridgeIDs);
     console.log("fetchUserIDs and fetchFridgeIDs preloaded");
-
+  
     function fetchFoodData(fridgeID) {
       fetch('/food-data?fridge_id=' + fridgeID)
         .then(response => response.json())
         .then(data => {
           var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
           foodTable.innerHTML = ""; // Clear existing content
-
+  
           // Add a counter variable, for use as S/N
           var counter = 1;
           var currentDate = new Date();
-
+  
           for (var i = 0; i < data.length; i++) {
             var row = foodTable.insertRow();
             var selectCell = row.insertCell();
@@ -289,15 +289,15 @@
             row.insertCell().textContent = data[i].food_name;
             row.insertCell().textContent = data[i].qty;
             row.insertCell().textContent = data[i].compartment; // Insert compartment data
-
+  
             // Format the expiry_date string
             var expiryDate = new Date(data[i].expiry_date);
             row.insertCell().textContent = expiryDate.toISOString().split('T')[0];
-
+  
             row.insertCell().textContent = data[i].note;
             row.insertCell().textContent = data[i].owner; // Owner data
             row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
-
+  
             // Apply expired class if food item is expired
             if (expiryDate < currentDate) {
               row.classList.add('expired');
@@ -306,37 +306,37 @@
         })
         .catch(err => console.error('Error fetching food data:', err));
     }
-
+  
     function updateUIDValue() {
       document.getElementsByName('selectedUserID')[0].value = selectedUserID;
     }
-
+  
     $(document).ready(function() {
       // Add food modal function
       var modal = document.getElementById("addFoodModal");
       var btn = document.getElementById("add-new");
       var span = document.getElementsByClassName("close")[0];
-
+  
       btn.onclick = function() {
         modal.style.display = "block";
       }
-
+  
       span.onclick = function() {
         modal.style.display = "none";
       }
-
+  
       window.onclick = function(event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       }
-
+  
       $('#add-food-form').submit(function(event) {
         event.preventDefault();
-
+  
         var selectedFridgeID = $('#fridge-list').val();
         var selectedUserID = $('#user-list').val();
-
+  
         var formData = {
           food_name: $('#food-name').val(),
           qty: $('#qty').val(),
@@ -347,7 +347,7 @@
           fridge_id: selectedFridgeID,
           owner: selectedUserID
         };
-
+  
         $.ajax({
           url: '/add-food',
           type: 'POST',
@@ -370,23 +370,23 @@
           }
         });
       });
-
+  
       $('#cancel-add').click(function() {
         modal.style.display = "none";
       });
-
+  
       // Edit food modal function
       var editModal = document.getElementById("editFoodModal");
       var editBtn = document.getElementById("edit");
-
+  
       editBtn.onclick = function() {
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-
+  
         if (!selectedFoodItem) {
           alert('Please select a food item to edit');
           return;
         }
-
+  
         fetch('/food-data?food_id=' + selectedFoodItem)
           .then(response => response.json())
           .then(data => {
@@ -398,31 +398,31 @@
               $('#edit-expiry-date').val(foodItem.expiry_date.split('T')[0]);
               $('#edit-note').val(foodItem.note);
               $('#edit-discard').prop('checked', foodItem.discard);
-
+  
               editModal.style.display = "block";
             } else {
               console.error('Error: Food item data is empty');
             }
           })
           .catch(err => console.error('Error fetching food data:', err));
-
+  
         var closeBtn = document.getElementsByClassName("close")[1];
         closeBtn.onclick = function() {
           editModal.style.display = "none";
         }
-
+  
         window.onclick = function(event) {
           if (event.target == editModal) {
             editModal.style.display = "none";
           }
         }
       };
-
+  
       $('#edit-food-form').submit(function(event) {
         event.preventDefault();
-
+  
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-
+  
         var formData = {
           food_name: $('#edit-food-name').val(),
           qty: $('#edit-qty').val(),
@@ -433,7 +433,7 @@
           food_id: selectedFoodItem,
           owner: selectedUserID
         };
-
+  
         $.ajax({
           url: '/edit-food',
           type: 'POST',
@@ -449,27 +449,27 @@
           }
         });
       });
-
+  
       $('#cancel-edit').click(function() {
         editModal.style.display = "none";
       });
-
+  
       // Delete food modal function
       var deleteModal = document.getElementById("deleteFoodModal");
       var deleteBtn = document.getElementById("delete");
       var confirmDeleteBtn = document.getElementById("confirm-delete");
       var cancelDeleteBtn = document.getElementById("cancel-delete");
-
+  
       deleteBtn.onclick = function() {
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-
+  
         if (!selectedFoodItem) {
           alert('Please select a food item to delete');
           return;
         }
-
+  
         deleteModal.style.display = "block";
-
+  
         confirmDeleteBtn.onclick = function() {
           $.ajax({
             url: '/delete-food',
@@ -486,12 +486,12 @@
             }
           });
         };
-
+  
         cancelDeleteBtn.onclick = function() {
           deleteModal.style.display = "none";
         };
       };
-
+  
       // Close modal when clicking outside
       window.onclick = function(event) {
         if (event.target == deleteModal) {
@@ -499,43 +499,46 @@
         }
       };
     });
-
+  
     // Show visual cues for new user and fridge additions
     $('#add-user-form').submit(function(event) {
       event.preventDefault();
       var form = $(this);
-
+      var userAddedCue = document.getElementById("user-added-cue");
+  
       $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function() {
-          $('#user-added-cue').fadeIn().delay(4000).fadeOut();
+          userAddedCue.style.visibility = "visible";
+          setTimeout(function() {
+            userAddedCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
           fetchUserIDs(); // Reload user list to include the new user
-        },
-        error: function(error) {
-          console.error('Error adding user:', error);
         }
       });
     });
-
+  
     $('#add-fridge-form').submit(function(event) {
       event.preventDefault();
       var form = $(this);
-
+      var fridgeAddedCue = document.getElementById("fridge-added-cue");
+  
       $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
         success: function() {
-          $('#fridge-added-cue').fadeIn().delay(4000).fadeOut();
+          fridgeAddedCue.style.visibility = "visible";
+          setTimeout(function() {
+            fridgeAddedCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
           fetchFridgeIDs(); // Reload fridge list to include the new fridge
-        },
-        error: function(error) {
-          console.error('Error adding fridge:', error);
         }
       });
     });
-  </script>
+</script>
+
 </body>
 </html>
