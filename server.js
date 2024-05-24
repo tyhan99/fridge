@@ -37,6 +37,11 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
+// About page
+app.get('/about', function(req, res) {
+  res.sendFile(__dirname + '/about.html');
+});
+
 app.get('/user-ids', async (req, res) => {
   try {
     const sql1 = 'SELECT uid, user_id FROM users';
