@@ -87,29 +87,25 @@ body {
 }
 
 /* About page styles */
-.about_title_card {
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  margin: 20px auto;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
-.about_story_card {
+.about_title_card, .about_story_card {
   width: 90%;
   max-width: 1200px;
   padding: 20px;
   margin: 20px auto;
-  text-align: left;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.about_story_card h2 {
+.about_title_card h2, .about_story_card h2 {
   font-size: 1.8em;
   margin-bottom: 10px;
 }
