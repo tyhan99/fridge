@@ -63,8 +63,8 @@ body {
 #user-list,
 #fridge-list {
   width: 100%;
-  max-width: 300px;
-  padding: 10px;
+  max-width: 200px;
+  padding: 8px;
   font-size: 16px;
   margin-top: 10px;
 }
