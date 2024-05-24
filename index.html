@@ -512,6 +512,9 @@
         success: function() {
           $('#user-added-cue').fadeIn().delay(4000).fadeOut();
           fetchUserIDs(); // Reload user list to include the new user
+        },
+        error: function(error) {
+          console.error('Error adding user:', error);
         }
       });
     });
@@ -527,6 +530,9 @@
         success: function() {
           $('#fridge-added-cue').fadeIn().delay(4000).fadeOut();
           fetchFridgeIDs(); // Reload fridge list to include the new fridge
+        },
+        error: function(error) {
+          console.error('Error adding fridge:', error);
         }
       });
     });
