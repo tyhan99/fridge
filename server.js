@@ -85,8 +85,9 @@ app.post('/adduser', async (req, res) => {
 app.post('/addfridge', async (req, res) => {
   try {
     const { fridge_name, selectedUserID } = req.body;
-    const result = await client.query("INSERT INTO fridge(fridge_name, user_id) VALUES ($1, $2)", [fridge_name, selectedUserID]); 
+    const result = await client.query("INSERT INTO fridge(fridge_name, user_id) VALUES ($1, $2) RETURNING fridge_id", [fridge_name, selectedUserID]); 
     console.log(result); // Debugging
+    res.json({ status: 'success', newFridgeID: result.rows[0].fridge_id });
   } catch (err) {
     console.error('Error adding new fridge:', err.stack);
     res.status(500).send('Error adding new fridge');
