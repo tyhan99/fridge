@@ -14,7 +14,7 @@
     gtag('config', 'G-9LYYYZ9ZDD');
   </script>
 </head>
-
+<!-- from 1.23 -->
 <body>
   <div class="navbar">
     <a href="/">Home</a>
@@ -178,90 +178,91 @@
     var selectedUserID;
     var selectedFridgeID;
   
-    function fetchUserIDs(selectedUserID = null) {
-    var userList = document.getElementById("user-list");
-    var userSelectionCue = document.getElementById("user-selection-cue");
-
-    fetch('/user-ids')
-      .then(response => response.json())
-      .then(data => {
-        console.log("Fetched user IDs: ", data);
-        userList.innerHTML = ""; // Clear existing content
-        for (var i = 0; i < data.length; i++) {
-          var optionItem = document.createElement("option");
-          optionItem.textContent = data[i].user_id;
-          optionItem.value = data[i].uid;
-          userList.appendChild(optionItem);
+    function fetchUserIDs() {
+      var userList = document.getElementById("user-list");
+      var userSelectionCue = document.getElementById("user-selection-cue");
+  
+      userList.addEventListener('click', function() {
+        if (userList.options.length === 0) {
+          console.log("Fetching user IDs...");
+          fetch('/user-ids')
+            .then(response => response.json())
+            .then(data => {
+              userList.innerHTML = ""; // Clear existing content
+              for (var i = 0; i < data.length; i++) {
+                var optionItem = document.createElement("option");
+                optionItem.textContent = data[i].user_id;
+                optionItem.value = data[i].uid;
+                userList.appendChild(optionItem);
+              }
+              userList.dispatchEvent(new Event('change')); // Manually trigger change event
+            })
+            .catch(err => console.error('Error fetching user IDs:', err));
         }
-        if (selectedUserID) {
-          userList.value = selectedUserID;
-          userList.dispatchEvent(new Event('change'));
+      });
+  
+      $(window).on("load", function() {
+        document.getElementById("user-list").addEventListener("change", function() {
+          selectedUserID = this.value;
+          var selectedUserName = this.options[this.selectedIndex].text;
+          console.log("Selected User ID:", selectedUserID);
+          userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
+          userSelectionCue.style.visibility = "visible";
+          setTimeout(function() {
+            userSelectionCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+          
+          // Show card2 when a user is selected
+          document.getElementById("card2").style.display = "block";
+        });
+      });
+    }
+  
+    function fetchFridgeIDs() {
+      var fridgeList = document.getElementById("fridge-list");
+      var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
+      var fridgeContentHeader = document.getElementById("fridge-content-header");
+  
+      fridgeList.addEventListener('click', function() {
+        if (fridgeList.options.length === 0) {
+          console.log("Fetching fridge IDs...");
+          fetch('/fridge-ids')
+            .then(response => response.json())
+            .then(data => {
+              fridgeList.innerHTML = ""; // Clear existing content
+              for (var i = 0; i < data.length; i++) {
+                var optionItem = document.createElement("option");
+                optionItem.textContent = data[i].fridge_name;
+                optionItem.value = data[i].fridge_id;
+                fridgeList.appendChild(optionItem);
+              }
+              fridgeList.dispatchEvent(new Event('change')); // Manually trigger change event
+            })
+            .catch(err => console.error('Error fetching Fridge IDs:', err));
         }
-      })
-      .catch(err => console.error('Error fetching user IDs:', err));
-
-    userList.addEventListener('change', function() {
-      selectedUserID = this.value;
-      if (this.selectedIndex !== -1) {
-        var selectedUserName = this.options[this.selectedIndex].text;
-        console.log("Selected User ID:", selectedUserID);
-        userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
-        userSelectionCue.style.visibility = "visible";
-        setTimeout(function() {
-          userSelectionCue.style.visibility = "hidden";
-        }, 3000); // Hide after 3 seconds
-        
-        // Show card2 when a user is selected
-        document.getElementById("card2").style.display = "block";
-        console.log("Card2 displayed");
-      }
-    });
-  }
-
-  function fetchFridgeIDs(selectedFridgeID = null) {
-    var fridgeList = document.getElementById("fridge-list");
-    var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
-    var fridgeContentHeader = document.getElementById("fridge-content-header");
-
-    fetch('/fridge-ids')
-      .then(response => response.json())
-      .then(data => {
-        console.log("Fetched fridge IDs: ", data);
-        fridgeList.innerHTML = ""; // Clear existing content
-        for (var i = 0; i < data.length; i++) {
-          var optionItem = document.createElement("option");
-          optionItem.textContent = data[i].fridge_name;
-          optionItem.value = data[i].fridge_id;
-          fridgeList.appendChild(optionItem);
-        }
-        if (selectedFridgeID) {
-          fridgeList.value = selectedFridgeID;
-          fridgeList.dispatchEvent(new Event('change'));
-        }
-      })
-      .catch(err => console.error('Error fetching Fridge IDs:', err));
-
-    fridgeList.addEventListener('change', function() {
-      selectedFridgeID = this.value;
-      if (this.selectedIndex !== -1) {
-        var selectedFridgeName = this.options[this.selectedIndex].text;
-        console.log("Selected Fridge ID:", selectedFridgeID);
-        fetchFoodData(selectedFridgeID);
-        updateUIDValue();
-        fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
-        fridgeSelectionCue.style.visibility = "visible";
-        setTimeout(function() {
-          fridgeSelectionCue.style.visibility = "hidden";
-        }, 3000); // Hide after 3 seconds
-
-        // Update the fridge content header
-        fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
-
-        // Show card3 when a fridge is selected
-        document.getElementById("card3").style.display = "block";
-      }
-    });
-  }
+      });
+  
+      $(window).on("load", function() {
+        document.getElementById("fridge-list").addEventListener("change", function() {
+          selectedFridgeID = this.value;
+          var selectedFridgeName = this.options[this.selectedIndex].text;
+          console.log("Selected Fridge ID:", selectedFridgeID);
+          fetchFoodData(selectedFridgeID);
+          updateUIDValue();
+          fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
+          fridgeSelectionCue.style.visibility = "visible";
+          setTimeout(function() {
+            fridgeSelectionCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+  
+          // Update the fridge content header
+          fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
+  
+          // Show card3 when a fridge is selected
+          document.getElementById("card3").style.display = "block";
+        });
+      });
+    }
   
     $(document).ready(fetchUserIDs);
     $(document).ready(fetchFridgeIDs);
@@ -506,22 +507,18 @@
       event.preventDefault();
       var form = $(this);
       var userAddedCue = document.getElementById("user-added-cue");
-      var newUserID;
   
       $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
-        success: function(response) {
+        success: function() {
           userAddedCue.style.visibility = "visible";
           setTimeout(function() {
             userAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
           console.log("Fetching updated user list...");
-          
-          // Assuming response contains the new user ID
-          newUserID = response.newUserID; // Replace with actual response structure
-          fetchUserIDs(newUserID); // Reload user list to include the new user and select it
+          fetchUserIDs(selectedUserID); // Reload user list to include the new user
         }
       });
     });
@@ -530,28 +527,18 @@
       event.preventDefault();
       var form = $(this);
       var fridgeAddedCue = document.getElementById("fridge-added-cue");
-      var newFridgeID;
-  
-      // Ensure the selectedUserID is correctly set
-      form.find('input[name="selectedUserID"]').val(selectedUserID);
   
       $.ajax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: form.serialize(),
-        success: function(response) {
+        success: function() {
           fridgeAddedCue.style.visibility = "visible";
           setTimeout(function() {
             fridgeAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
           console.log("Fetching updated fridge list...");
-          
-          // Assuming response contains the new fridge ID
-          newFridgeID = response.newFridgeID; // Replace with actual response structure
-          fetchFridgeIDs(newFridgeID); // Reload fridge list to include the new fridge and select it
-        },
-        error: function(error) {
-          console.error('Error adding new fridge:', error);
+          fetchFridgeIDs(selectedFridgeID); // Reload fridge list to include the new fridge
         }
       });
     });
