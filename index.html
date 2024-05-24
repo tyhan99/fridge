@@ -11,13 +11,12 @@
     <a href="#about">About...</a>
     <a href="#contact">Contact</a>
   </div>
-
+  
   <div class="grid-container">
     <div class="welcome_card">
       <h1>Welcome to PawFridge</h1>
       <p>– the convenient and practical solution to managing what's in your fridge. 
-      <br>Here's an opportunity to play an active role (for once) in managing your refrigerator. 
-      <br>Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
+      <br>Here's an opportunity to play an active role (for once) in managing your refrigerator. Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
     </div>
   </div>
 
@@ -64,6 +63,7 @@
             <th>No.</th>
             <th>Food Name</th>
             <th>Quantity</th>
+            <th>Compartment</th>
             <th>Expiry Date</th>
             <th>Note</th>
             <th>Owner</th>
@@ -76,7 +76,6 @@
       </table>
     </div>
   </div>
- 
 
   <!-- Add New Food Item Modal -->
   <div id="addFoodModal" class="modal">
@@ -87,6 +86,8 @@
         <input type="text" id="food-name" name="food_name"><br>
         <label for="qty">Quantity:</label><br>
         <input type="number" id="qty" name="qty"><br>
+        <label for="compartment">Compartment:</label><br>
+        <input type="text" id="compartment" name="compartment"><br>
         <label for="expiry-date">Expiry date:</label><br>
         <input type="date" id="expiry-date" name="expiry_date"><br>
         <label for="note">Note:</label><br>
@@ -108,6 +109,8 @@
         <input type="text" id="edit-food-name" name="food_name"><br>
         <label for="edit-qty">Quantity:</label><br>
         <input type="number" id="edit-qty" name="qty"><br>
+        <label for="edit-compartment">Compartment:</label><br>
+        <input type="text" id="edit-compartment" name="compartment"><br>
         <label for="edit-expiry-date">Expiry date:</label><br>
         <input type="date" id="edit-expiry-date" name="expiry_date"><br>
         <label for="edit-note">Note:</label><br>
@@ -115,6 +118,7 @@
         <label for="edit-discard">OK to discard by others:</label><br>
         <input type="checkbox" id="edit-discard" name="discard"><br>
         <input type="submit" value="Submit">
+        <input type="button" value="Cancel```html
         <input type="button" value="Cancel" id="cancel-edit">
       </form>
     </div>
@@ -135,110 +139,110 @@
     <p>Disclaimer: This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
   </div>
 
-<script>
+  <script>
     // Define selectedUserID and selectedFridgeID in the global scope
     var selectedUserID;
     var selectedFridgeID;
-  
+
     function fetchUserIDs() {
-    var userList = document.getElementById("user-list");
-    var userSelectionCue = document.getElementById("user-selection-cue");
+      var userList = document.getElementById("user-list");
+      var userSelectionCue = document.getElementById("user-selection-cue");
 
-    userList.addEventListener('click', function() {
-      if (userList.options.length === 0) {
-        fetch('/user-ids')
-          .then(response => response.json())
-          .then(data => {
-            userList.innerHTML = ""; // Clear existing content
-            for (var i = 0; i < data.length; i++) {
-              var optionItem = document.createElement("option");
-              optionItem.textContent = data[i].user_id;
-              optionItem.value = data[i].uid;
-              userList.appendChild(optionItem);
-            }
-            userList.dispatchEvent(new Event('change')); // Manually trigger change event
-          })
-          .catch(err => console.error('Error fetching user IDs:', err));
-      }
-    });
-
-    $(window).on("load", function() {
-      document.getElementById("user-list").addEventListener("change", function() {
-        selectedUserID = this.value;
-        var selectedUserName = this.options[this.selectedIndex].text;
-        console.log("Selected User ID:", selectedUserID);
-        userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
-        userSelectionCue.style.visibility = "visible";
-        setTimeout(function() {
-          userSelectionCue.style.visibility = "hidden";
-        }, 3000); // Hide after 3 seconds
-        
-        // Show card2 when a user is selected
-        document.getElementById("card2").style.display = "block";
+      userList.addEventListener('click', function() {
+        if (userList.options.length === 0) {
+          fetch('/user-ids')
+            .then(response => response.json())
+            .then(data => {
+              userList.innerHTML = ""; // Clear existing content
+              for (var i = 0; i < data.length; i++) {
+                var optionItem = document.createElement("option");
+                optionItem.textContent = data[i].user_id;
+                optionItem.value = data[i].uid;
+                userList.appendChild(optionItem);
+              }
+              userList.dispatchEvent(new Event('change')); // Manually trigger change event
+            })
+            .catch(err => console.error('Error fetching user IDs:', err));
+        }
       });
-    });
-  }
 
-  function fetchFridgeIDs() {
-    var fridgeList = document.getElementById("fridge-list");
-    var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
-    var fridgeContentHeader = document.getElementById("fridge-content-header");
-
-    fridgeList.addEventListener('click', function() {
-      if (fridgeList.options.length === 0) {
-        fetch('/fridge-ids')
-          .then(response => response.json())
-          .then(data => {
-            fridgeList.innerHTML = ""; // Clear existing content
-            for (var i = 0; i < data.length; i++) {
-              var optionItem = document.createElement("option");
-              optionItem.textContent = data[i].fridge_name;
-              optionItem.value = data[i].fridge_id;
-              fridgeList.appendChild(optionItem);
-            }
-            fridgeList.dispatchEvent(new Event('change')); // Manually trigger change event
-          })
-          .catch(err => console.error('Error fetching Fridge IDs:', err));
-      }
-    });
-
-    $(window).on("load", function() {
-      document.getElementById("fridge-list").addEventListener("change", function() {
-        selectedFridgeID = this.value;
-        var selectedFridgeName = this.options[this.selectedIndex].text;
-        console.log("Selected Fridge ID:", selectedFridgeID);
-        fetchFoodData(selectedFridgeID);
-        updateUIDValue();
-        fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
-        fridgeSelectionCue.style.visibility = "visible";
-        setTimeout(function() {
-          fridgeSelectionCue.style.visibility = "hidden";
-        }, 3000); // Hide after 3 seconds
-
-        // Update the fridge content header
-        fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
-
-        // Show card3 when a fridge is selected
-        document.getElementById("card3").style.display = "block";
+      $(window).on("load", function() {
+        document.getElementById("user-list").addEventListener("change", function() {
+          selectedUserID = this.value;
+          var selectedUserName = this.options[this.selectedIndex].text;
+          console.log("Selected User ID:", selectedUserID);
+          userSelectionCue.textContent = "User '" + selectedUserName + "' is selected";
+          userSelectionCue.style.visibility = "visible";
+          setTimeout(function() {
+            userSelectionCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+          
+          // Show card2 when a user is selected
+          document.getElementById("card2").style.display = "block";
+        });
       });
-    });
-  }
-  
+    }
+
+    function fetchFridgeIDs() {
+      var fridgeList = document.getElementById("fridge-list");
+      var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
+      var fridgeContentHeader = document.getElementById("fridge-content-header");
+
+      fridgeList.addEventListener('click', function() {
+        if (fridgeList.options.length === 0) {
+          fetch('/fridge-ids')
+            .then(response => response.json())
+            .then(data => {
+              fridgeList.innerHTML = ""; // Clear existing content
+              for (var i = 0; i < data.length; i++) {
+                var optionItem = document.createElement("option");
+                optionItem.textContent = data[i].fridge_name;
+                optionItem.value = data[i].fridge_id;
+                fridgeList.appendChild(optionItem);
+              }
+              fridgeList.dispatchEvent(new Event('change')); // Manually trigger change event
+            })
+            .catch(err => console.error('Error fetching Fridge IDs:', err));
+        }
+      });
+
+      $(window).on("load", function() {
+        document.getElementById("fridge-list").addEventListener("change", function() {
+          selectedFridgeID = this.value;
+          var selectedFridgeName = this.options[this.selectedIndex].text;
+          console.log("Selected Fridge ID:", selectedFridgeID);
+          fetchFoodData(selectedFridgeID);
+          updateUIDValue();
+          fridgeSelectionCue.textContent = "Fridge '" + selectedFridgeName + "' is selected";
+          fridgeSelectionCue.style.visibility = "visible";
+          setTimeout(function() {
+            fridgeSelectionCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+
+          // Update the fridge content header
+          fridgeContentHeader.textContent = "Here's the contents of " + selectedFridgeName;
+
+          // Show card3 when a fridge is selected
+          document.getElementById("card3").style.display = "block";
+        });
+      });
+    }
+
     $(document).ready(fetchUserIDs);
     $(document).ready(fetchFridgeIDs);
     console.log("fetchUserIDs and fetchFridgeIDs preloaded");
-  
+
     function fetchFoodData(fridgeID) {
       fetch('/food-data?fridge_id=' + fridgeID)
         .then(response => response.json())
         .then(data => {
           var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
           foodTable.innerHTML = ""; // Clear existing content
-  
+
           // Add a counter variable, for use as S/N
           var counter = 1;
           var currentDate = new Date();
-  
+
           for (var i = 0; i < data.length; i++) {
             var row = foodTable.insertRow();
             var selectCell = row.insertCell();
@@ -250,15 +254,16 @@
             row.insertCell().textContent = counter++;
             row.insertCell().textContent = data[i].food_name;
             row.insertCell().textContent = data[i].qty;
-  
+            row.insertCell().textContent = data[i].compartment; // Insert compartment data
+
             // Format the expiry_date string
             var expiryDate = new Date(data[i].expiry_date);
             row.insertCell().textContent = expiryDate.toISOString().split('T')[0];
-  
+
             row.insertCell().textContent = data[i].note;
             row.insertCell().textContent = data[i].owner; // Owner data
             row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
-  
+
             // Apply expired class if food item is expired
             if (expiryDate < currentDate) {
               row.classList.add('expired');
@@ -267,47 +272,48 @@
         })
         .catch(err => console.error('Error fetching food data:', err));
     }
-  
+
     function updateUIDValue() {
       document.getElementsByName('selectedUserID')[0].value = selectedUserID;
     }
-  
+
     $(document).ready(function() {
       // Add food modal function
       var modal = document.getElementById("addFoodModal");
       var btn = document.getElementById("add-new");
       var span = document.getElementsByClassName("close")[0];
-  
+
       btn.onclick = function() {
         modal.style.display = "block";
       }
-  
+
       span.onclick = function() {
         modal.style.display = "none";
       }
-  
+
       window.onclick = function(event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       }
-  
+
       $('#add-food-form').submit(function(event) {
         event.preventDefault();
-  
+
         var selectedFridgeID = $('#fridge-list').val();
         var selectedUserID = $('#user-list').val();
-  
+
         var formData = {
           food_name: $('#food-name').val(),
           qty: $('#qty').val(),
+          compartment: $('#compartment').val(), // Add compartment data
           expiry_date: $('#expiry-date').val(),
           note: $('#note').val(),
           discard: $('#discard').is(':checked'),
           fridge_id: selectedFridgeID,
           owner: selectedUserID
         };
-  
+
         $.ajax({
           url: '/add-food',
           type: 'POST',
@@ -320,6 +326,7 @@
             // Clear the form inputs
             $('#food-name').val('');
             $('#qty').val('');
+            $('#compartment').val(''); // Clear compartment input
             $('#expiry-date').val('');
             $('#note').val('');
             $('#discard').prop('checked', false);
@@ -329,23 +336,23 @@
           }
         });
       });
-  
+
       $('#cancel-add').click(function() {
         modal.style.display = "none";
       });
-  
+
       // Edit food modal function
       var editModal = document.getElementById("editFoodModal");
       var editBtn = document.getElementById("edit");
-  
+
       editBtn.onclick = function() {
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-  
+
         if (!selectedFoodItem) {
           alert('Please select a food item to edit');
           return;
         }
-  
+
         fetch('/food-data?food_id=' + selectedFoodItem)
           .then(response => response.json())
           .then(data => {
@@ -353,50 +360,46 @@
               var foodItem = data[0];
               $('#edit-food-name').val(foodItem.food_name);
               $('#edit-qty').val(foodItem.qty);
-  
-              if (foodItem.expiry_date && typeof foodItem.expiry_date === 'string') {
-                $('#edit-expiry-date').val(foodItem.expiry_date.split('T')[0]);
-              } else {
-                $('#edit-expiry-date').val('');
-              }
-  
+              $('#edit-compartment').val(foodItem.compartment); // Populate compartment
+              $('#edit-expiry-date').val(foodItem.expiry_date.split('T')[0]);
               $('#edit-note').val(foodItem.note);
               $('#edit-discard').prop('checked', foodItem.discard);
-  
+
               editModal.style.display = "block";
             } else {
               console.error('Error: Food item data is empty');
             }
           })
           .catch(err => console.error('Error fetching food data:', err));
-  
+
         var closeBtn = document.getElementsByClassName("close")[1];
         closeBtn.onclick = function() {
           editModal.style.display = "none";
         }
-  
+
         window.onclick = function(event) {
           if (event.target == editModal) {
             editModal.style.display = "none";
           }
         }
       };
-  
+
       $('#edit-food-form').submit(function(event) {
         event.preventDefault();
-  
+
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-  
+
         var formData = {
           food_name: $('#edit-food-name').val(),
           qty: $('#edit-qty').val(),
+          compartment: $('#edit-compartment').val(), // Add compartment data
           expiry_date: $('#edit-expiry-date').val(),
           note: $('#edit-note').val(),
           discard: $('#edit-discard').prop('checked'),
           food_id: selectedFoodItem,
           owner: selectedUserID
         };
-  
+
         $.ajax({
           url: '/edit-food',
           type: 'POST',
@@ -412,27 +415,27 @@
           }
         });
       });
-  
+
       $('#cancel-edit').click(function() {
         editModal.style.display = "none";
       });
-  
+
       // Delete food modal function
       var deleteModal = document.getElementById("deleteFoodModal");
       var deleteBtn = document.getElementById("delete");
       var confirmDeleteBtn = document.getElementById("confirm-delete");
       var cancelDeleteBtn = document.getElementById("cancel-delete");
-  
+
       deleteBtn.onclick = function() {
         var selectedFoodItem = $('input[name="food-item"]:checked').val();
-  
+
         if (!selectedFoodItem) {
           alert('Please select a food item to delete');
           return;
         }
-  
+
         deleteModal.style.display = "block";
-  
+
         confirmDeleteBtn.onclick = function() {
           $.ajax({
             url: '/delete-food',
@@ -449,12 +452,12 @@
             }
           });
         };
-  
+
         cancelDeleteBtn.onclick = function() {
           deleteModal.style.display = "none";
         };
       };
-  
+
       // Close modal when clicking outside
       window.onclick = function(event) {
         if (event.target == deleteModal) {
@@ -462,8 +465,6 @@
         }
       };
     });
-</script>
-  
-
+  </script>
 </body>
 </html>

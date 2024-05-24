@@ -101,18 +101,7 @@ app.post('/delete-food', async (req, res) => {
   }
 });
 
-app.post('/add-food', async (req, res) => {
-  try {
-    const { food_name, qty, expiry_date, note, discard, fridge_id, owner } = req.body;
-    const result = await client.query("INSERT INTO food(food_name, qty, expiry_date, note, discard, fridge_id, owner) VALUES ($1, $2, $3, $4, $5, $6, $7)", [food_name, qty, expiry_date, note, discard, fridge_id, owner]); 
-    console.log(result); // Debugging
-    res.json({ status: 'success' });
-  } catch (err) {
-    console.error('Error adding new food item:', err.stack);
-    res.status(500).send('Error adding new food item');
-  }
-});
-
+// Fetch food data
 app.get('/food-data', async (req, res) => {
   try {
     const fridge_id = req.query.fridge_id;
@@ -131,9 +120,10 @@ app.get('/food-data', async (req, res) => {
         food_id: row.food_id,
         food_name: row.food_name,
         qty: row.qty,
+        compartment: row.compartment, // Include compartment data
         expiry_date: row.expiry_date,
         note: row.note,
-        owner: row.owner, // Owner data
+        owner: row.owner,
         discard: row.discard
       }));
       res.json(foodData);
@@ -144,11 +134,25 @@ app.get('/food-data', async (req, res) => {
   }
 });
 
+// Add new food item
+app.post('/add-food', async (req, res) => {
+  try {
+    const { food_name, qty, compartment, expiry_date, note, discard, fridge_id, owner } = req.body;
+    const result = await client.query("INSERT INTO food(food_name, qty, compartment, expiry_date, note, discard, fridge_id, owner) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [food_name, qty, compartment, expiry_date, note, discard, fridge_id, owner]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+  } catch (err) {
+    console.error('Error adding new food item:', err.stack);
+    res.status(500).send('Error adding new food item');
+  }
+});
+
+// Edit existing food item
 app.post('/edit-food', async (req, res) => {
   try {
-    const { food_name, qty, expiry_date, note, discard, food_id, owner } = req.body;
-    const result = await client.query("UPDATE food SET food_name = $1, qty = $2, expiry_date = $3, note = $4, discard = $5, owner = $6 WHERE food_id = $7", 
-                                      [food_name, qty, expiry_date, note, discard, owner, food_id]); 
+    const { food_name, qty, compartment, expiry_date, note, discard, food_id, owner } = req.body;
+    const result = await client.query("UPDATE food SET food_name = $1, qty = $2, compartment = $3, expiry_date = $4, note = $5, discard = $6, owner = $7 WHERE food_id = $8", 
+                                      [food_name, qty, compartment, expiry_date, note, discard, owner, food_id]); 
     console.log(result); // Debugging
     res.json({ status: 'success' });
   } catch (err) {
@@ -156,5 +160,6 @@ app.post('/edit-food', async (req, res) => {
     res.status(500).send('Error editing food item');
   }
 });
+
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
