@@ -518,7 +518,7 @@
             userAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
           console.log("Fetching updated user list...");
-          fetchUserIDs(selectedUserID); // Reload user list to include the new user
+          fetchUserIDs(); // Reload user list to include the new user
         }
       });
     });
@@ -538,7 +538,7 @@
             fridgeAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
           console.log("Fetching updated fridge list...");
-          fetchFridgeIDs(selectedFridgeID); // Reload fridge list to include the new fridge
+          fetchFridgeIDs(); // Reload fridge list to include the new fridge
         }
       });
     });
