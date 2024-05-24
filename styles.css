@@ -60,6 +60,28 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Welcome card styles */
+.welcome_card {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  margin: 20px auto;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome_card h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.welcome_card p {
+  font-size: 1.2em;
+  color: #555;
+}
+
 #user-list,
 #fridge-list {
   width: 100%;
