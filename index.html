@@ -184,6 +184,7 @@
   
       userList.addEventListener('click', function() {
         if (userList.options.length === 0) {
+          console.log("Fetching user IDs...");
           fetch('/user-ids')
             .then(response => response.json())
             .then(data => {
@@ -224,6 +225,7 @@
   
       fridgeList.addEventListener('click', function() {
         if (fridgeList.options.length === 0) {
+          console.log("Fetching fridge IDs...");
           fetch('/fridge-ids')
             .then(response => response.json())
             .then(data => {
@@ -515,6 +517,7 @@
           setTimeout(function() {
             userAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
+          console.log("Fetching updated user list...");
           fetchUserIDs(); // Reload user list to include the new user
         }
       });
@@ -534,6 +537,7 @@
           setTimeout(function() {
             fridgeAddedCue.style.visibility = "hidden";
           }, 3000); // Hide after 3 seconds
+          console.log("Fetching updated fridge list...");
           fetchFridgeIDs(); // Reload fridge list to include the new fridge
         }
       });
