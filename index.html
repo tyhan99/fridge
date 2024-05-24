@@ -77,51 +77,74 @@
     </div>
   </div>
 
-  <!-- Add New Food Item Modal -->
-  <div id="addFoodModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form id="add-food-form">
-        <label for="food-name">Name of food:</label><br>
-        <input type="text" id="food-name" name="food_name"><br>
-        <label for="qty">Quantity:</label><br>
-        <input type="number" id="qty" name="qty"><br>
-        <label for="compartment">Compartment:</label><br>
-        <input type="text" id="compartment" name="compartment"><br>
-        <label for="expiry-date">Expiry date:</label><br>
-        <input type="date" id="expiry-date" name="expiry_date"><br>
-        <label for="note">Note:</label><br>
-        <input type="text" id="note" name="note"><br>
-        <label for="discard">OK to discard by others:</label><br>
-        <input type="checkbox" id="discard" name="discard"><br>
-        <input type="submit" value="Submit">
-        <input type="button" value="Cancel" id="cancel-add">
-      </form>
-    </div>
+<!-- Add New Food Item Modal -->
+<div id="addFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="add-food-form">
+      <label for="food-name">Name of food:</label><br>
+      <input type="text" id="food-name" name="food_name"><br>
+      <label for="qty">Quantity:</label><br>
+      <input type="number" id="qty" name="qty"><br>
+      <label for="compartment">Compartment:</label><br>
+      <select id="compartment" name="compartment">
+        <option value="Main fridge">Main fridge</option>
+        <option value="Upper shelves">Upper shelves</option>
+        <option value="Middle shelves">Middle shelves</option>
+        <option value="Bottom shelves">Bottom shelves</option>
+        <option value="Freezer">Freezer</option>
+        <option value="Door Bins">Door Bins</option>
+        <option value="Vegetable/Fruits">Vegetable/Fruits</option>
+        <option value="Beverage Rack">Beverage Rack</option>
+        <option value="Special Drawer">Special Drawer</option>
+        <option value="Others">Others</option>
+      </select><br>
+      <label for="expiry-date">Expiry date:</label><br>
+      <input type="date" id="expiry-date" name="expiry_date"><br>
+      <label for="note">Note:</label><br>
+      <input type="text" id="note" name="note"><br>
+      <label for="discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-add">
+    </form>
   </div>
+</div>
 
-  <!-- Edit Food Item Modal -->
-  <div id="editFoodModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form id="edit-food-form">
-        <label for="edit-food-name">Name of food:</label><br>
-        <input type="text" id="edit-food-name" name="food_name"><br>
-        <label for="edit-qty">Quantity:</label><br>
-        <input type="number" id="edit-qty" name="qty"><br>
-        <label for="edit-compartment">Compartment:</label><br>
-        <input type="text" id="edit-compartment" name="compartment"><br>
-        <label for="edit-expiry-date">Expiry date:</label><br>
-        <input type="date" id="edit-expiry-date" name="expiry_date"><br>
-        <label for="edit-note">Note:</label><br>
-        <input type="text" id="edit-note" name="note"><br>
-        <label for="edit-discard">OK to discard by others:</label><br>
-        <input type="checkbox" id="edit-discard" name="discard"><br>
-        <input type="submit" value="Submit">
-        <input type="button" value="Cancel" id="cancel-edit">
-      </form>
-    </div>
+<!-- Edit Food Item Modal -->
+<div id="editFoodModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="edit-food-form">
+      <label for="edit-food-name">Name of food:</label><br>
+      <input type="text" id="edit-food-name" name="food_name"><br>
+      <label for="edit-qty">Quantity:</label><br>
+      <input type="number" id="edit-qty" name="qty"><br>
+      <label for="edit-compartment">Compartment:</label><br>
+      <select id="edit-compartment" name="compartment">
+        <option value="Main fridge">Main fridge</option>
+        <option value="Upper shelves">Upper shelves</option>
+        <option value="Middle shelves">Middle shelves</option>
+        <option value="Bottom shelves">Bottom shelves</option>
+        <option value="Freezer">Freezer</option>
+        <option value="Door Bins">Door Bins</option>
+        <option value="Vegetable/Fruits">Vegetable/Fruits</option>
+        <option value="Beverage Rack">Beverage Rack</option>
+        <option value="Special Drawer">Special Drawer</option>
+        <option value="Others">Others</option>
+      </select><br>
+      <label for="edit-expiry-date">Expiry date:</label><br>
+      <input type="date" id="edit-expiry-date" name="expiry_date"><br>
+      <label for="edit-note">Note:</label><br>
+      <input type="text" id="edit-note" name="note"><br>
+      <label for="edit-discard">OK to discard by others:</label><br>
+      <input type="checkbox" id="edit-discard" name="discard"><br>
+      <input type="submit" value="Submit">
+      <input type="button" value="Cancel" id="cancel-edit">
+    </form>
   </div>
+</div>
+
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteFoodModal" class="modal">
