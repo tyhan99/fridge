@@ -32,6 +32,19 @@
   margin-left: 20px;
 }
 
+/* Styles for success visual cues */
+.success-cue {
+  visibility: hidden;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+
 /* Footer styles */
 .footer {
   width: 100%;

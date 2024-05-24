@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to PawFridge!</title>
-    <link rel="stylesheet" href="./styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9LYYYZ9ZDD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-  
-      gtag('config', 'G-9LYYYZ9ZDD');
-    </script>
-</head>
+  <title>Welcome to PawFridge!</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9LYYYZ9ZDD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'G-9LYYYZ9ZDD');
+  </script>
+</head>
 <body>
   <div class="navbar">
     <a href="/">Home</a>
@@ -26,8 +25,7 @@
     <div class="welcome_card">
       <h1>Welcome to PawFridge</h1>
       <p>– the convenient and practical solution to managing what's in your fridge. 
-      <br>Here's an opportunity to play an active role (for once) in managing your refrigerator. 
-      <br>Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
+      <br>Here's an opportunity to play an active role (for once) in managing your refrigerator. Stretch your paw(s) today, and no more wasted food or forgotten items!</p>
     </div>
   </div>
 
@@ -38,11 +36,12 @@
       <select id="user-list"></select>
       <div id="user-selection-cue" class="user-selection-cue"></div>
       <p><br>or sign up as a new user:</p>
-      <form action="/adduser" method="post">
+      <form id="add-user-form" action="/adduser" method="post">
         <input type="text" name="user_id" placeholder="Enter your name">
         <input type="text" name="email" placeholder="Enter your email (optional)">
         <button class="plan-button" type="submit">Sign up</button>
       </form>
+      <div id="user-added-cue" class="success-cue">User added successfully! Please select the new user from the list above.</div>
     </div>
   </div>
 
@@ -52,11 +51,12 @@
       <select id="fridge-list"></select>
       <div id="fridge-selection-cue" class="fridge-selection-cue"></div>
       <p><br>or add a new fridge:</p>
-      <form action="/addfridge" method="post">
+      <form id="add-fridge-form" action="/addfridge" method="post">
         <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
         <input type="number" name="selectedUserID" hidden>
         <button class="plan-button" type="submit">Add</button>
       </form>
+      <div id="fridge-added-cue" class="success-cue">Fridge added successfully! Please select the new fridge from the list above.</div>
     </div>
   </div>
 
@@ -88,74 +88,74 @@
     </div>
   </div>
 
-<!-- Add New Food Item Modal -->
-<div id="addFoodModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="add-food-form">
-      <label for="food-name">Name of food:</label><br>
-      <input type="text" id="food-name" name="food_name"><br>
-      <label for="qty">Quantity:</label><br>
-      <input type="number" id="qty" name="qty"><br>
-      <label for="compartment">Compartment:</label><br>
-      <select id="compartment" name="compartment">
-        <option value="Main fridge">Main fridge</option>
-        <option value="Upper shelves">Upper shelves</option>
-        <option value="Middle shelves">Middle shelves</option>
-        <option value="Bottom shelves">Bottom shelves</option>
-        <option value="Freezer">Freezer</option>
-        <option value="Door Bins">Door Bins</option>
-        <option value="Vegetable/Fruits">Vegetable/Fruits</option>
-        <option value="Beverage Rack">Beverage Rack</option>
-        <option value="Special Drawer">Special Drawer</option>
-        <option value="Others">Others</option>
-      </select><br>
-      <label for="expiry-date">Expiry date:</label><br>
-      <input type="date" id="expiry-date" name="expiry_date"><br>
-      <label for="note">Note:</label><br>
-      <input type="text" id="note" name="note"><br>
-      <label for="discard">OK to discard by others:</label><br>
-      <input type="checkbox" id="discard" name="discard"><br>
-      <input type="submit" value="Submit">
-      <input type="button" value="Cancel" id="cancel-add">
-    </form>
+  <!-- Add New Food Item Modal -->
+  <div id="addFoodModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="add-food-form">
+        <label for="food-name">Name of food:</label><br>
+        <input type="text" id="food-name" name="food_name"><br>
+        <label for="qty">Quantity:</label><br>
+        <input type="number" id="qty" name="qty"><br>
+        <label for="compartment">Compartment:</label><br>
+        <select id="compartment" name="compartment">
+          <option value="Main fridge">Main fridge</option>
+          <option value="Upper shelves">Upper shelves</option>
+          <option value="Middle shelves">Middle shelves</option>
+          <option value="Bottom shelves">Bottom shelves</option>
+          <option value="Freezer">Freezer</option>
+          <option value="Door Bins">Door Bins</option>
+          <option value="Vegetable/Fruits">Vegetable/Fruits</option>
+          <option value="Beverage Rack">Beverage Rack</option>
+          <option value="Special Drawer">Special Drawer</option>
+          <option value="Others">Others</option>
+        </select><br>
+        <label for="expiry-date">Expiry date:</label><br>
+        <input type="date" id="expiry-date" name="expiry_date"><br>
+        <label for="note">Note:</label><br>
+        <input type="text" id="note" name="note"><br>
+        <label for="discard">OK to discard by others:</label><br>
+        <input type="checkbox" id="discard" name="discard">
+        <br>
+        <input type="submit" value="Submit">
+        <input type="button" value="Cancel" id="cancel-add">
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Edit Food Item Modal -->
-<div id="editFoodModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="edit-food-form">
-      <label for="edit-food-name">Name of food:</label><br>
-      <input type="text" id="edit-food-name" name="food_name"><br>
-      <label for="edit-qty">Quantity:</label><br>
-      <input type="number" id="edit-qty" name="qty"><br>
-      <label for="edit-compartment">Compartment:</label><br>
-      <select id="edit-compartment" name="compartment">
-        <option value="Main fridge">Main fridge</option>
-        <option value="Upper shelves">Upper shelves</option>
-        <option value="Middle shelves">Middle shelves</option>
-        <option value="Bottom shelves">Bottom shelves</option>
-        <option value="Freezer">Freezer</option>
-        <option value="Door Bins">Door Bins</option>
-        <option value="Vegetable/Fruits">Vegetable/Fruits</option>
-        <option value="Beverage Rack">Beverage Rack</option>
-        <option value="Special Drawer">Special Drawer</option>
-        <option value="Others">Others</option>
-      </select><br>
-      <label for="edit-expiry-date">Expiry date:</label><br>
-      <input type="date" id="edit-expiry-date" name="expiry_date"><br>
-      <label for="edit-note">Note:</label><br>
-      <input type="text" id="edit-note" name="note"><br>
-      <label for="edit-discard">OK to discard by others:</label><br>
-      <input type="checkbox" id="edit-discard" name="discard"><br>
-      <input type="submit" value="Submit">
-      <input type="button" value="Cancel" id="cancel-edit">
-    </form>
+  <!-- Edit Food Item Modal -->
+  <div id="editFoodModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="edit-food-form">
+        <label for="edit-food-name">Name of food:</label><br>
+        <input type="text" id="edit-food-name" name="food_name"><br>
+        <label for="edit-qty">Quantity:</label><br>
+        <input type="number" id="edit-qty" name="qty"><br>
+        <label for="edit-compartment">Compartment:</label><br>
+        <select id="edit-compartment" name="compartment">
+          <option value="Main fridge">Main fridge</option>
+          <option value="Upper shelves">Upper shelves</option>
+          <option value="Middle shelves">Middle shelves</option>
+          <option value="Bottom shelves">Bottom shelves</option>
+          <option value="Freezer">Freezer</option>
+          <option value="Door Bins">Door Bins</option>
+          <option value="Vegetable/Fruits">Vegetable/Fruits</option>
+          <option value="Beverage Rack">Beverage Rack</option>
+          <option value="Special Drawer">Special Drawer</option>
+          <option value="Others">Others</option>
+        </select><br>
+        <label for="edit-expiry-date">Expiry date:</label><br>
+        <input type="date" id="edit-expiry-date" name="expiry_date"><br>
+        <label for="edit-note">Note:</label><br>
+        <input type="text" id="edit-note" name="note"><br>
+        <label for="edit-discard">OK to discard by others:</label><br>
+        <input type="checkbox" id="edit-discard" name="discard"><br>
+        <input type="submit" value="Submit">
+        <input type="button" value="Cancel" id="cancel-edit">
+      </form>
+    </div>
   </div>
-</div>
-
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteFoodModal" class="modal">
@@ -497,6 +497,37 @@
           deleteModal.style.display = "none";
         }
       };
+    });
+
+    // Show visual cues for new user and fridge additions
+    $('#add-user-form').submit(function(event) {
+      event.preventDefault();
+      var form = $(this);
+
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function() {
+          $('#user-added-cue').fadeIn().delay(4000).fadeOut();
+          fetchUserIDs(); // Reload user list to include the new user
+        }
+      });
+    });
+
+    $('#add-fridge-form').submit(function(event) {
+      event.preventDefault();
+      var form = $(this);
+
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function() {
+          $('#fridge-added-cue').fadeIn().delay(4000).fadeOut();
+          fetchFridgeIDs(); // Reload fridge list to include the new fridge
+        }
+      });
     });
   </script>
 </body>
