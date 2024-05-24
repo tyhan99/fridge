@@ -523,28 +523,34 @@
     });
   
     $('#add-fridge-form').submit(function(event) {
-      event.preventDefault();
-      var form = $(this);
-      var fridgeAddedCue = document.getElementById("fridge-added-cue");
-      var newFridgeID;
-  
-      $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function(response) {
-          fridgeAddedCue.style.visibility = "visible";
-          setTimeout(function() {
-            fridgeAddedCue.style.visibility = "hidden";
-          }, 3000); // Hide after 3 seconds
-          console.log("Fetching updated fridge list...");
-          
-          // Assuming response contains the new fridge ID
-          newFridgeID = response.newFridgeID; // Replace with actual response structure
-          fetchFridgeIDs(newFridgeID); // Reload fridge list to include the new fridge and select it
-        }
-      });
+    event.preventDefault();
+    var form = $(this);
+    var fridgeAddedCue = document.getElementById("fridge-added-cue");
+    var newFridgeID;
+
+    // Ensure the selectedUserID is correctly set
+    form.find('input[name="selectedUserID"]').val(selectedUserID);
+
+    $.ajax({
+      type: form.attr('method'),
+      url: form.attr('action'),
+      data: form.serialize(),
+      success: function(response) {
+        fridgeAddedCue.style.visibility = "visible";
+        setTimeout(function() {
+          fridgeAddedCue.style.visibility = "hidden";
+        }, 3000); // Hide after 3 seconds
+        console.log("Fetching updated fridge list...");
+        
+        // Assuming response contains the new fridge ID
+        newFridgeID = response.newFridgeID; // Replace with actual response structure
+        fetchFridgeIDs(newFridgeID); // Reload fridge list to include the new fridge and select it
+      },
+      error: function(error) {
+        console.error('Error adding new fridge:', error);
+      }
     });
+});
 </script>
   
 
