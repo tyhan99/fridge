@@ -167,5 +167,19 @@ app.post('/edit-food', async (req, res) => {
   }
 });
 
+// added 25/5
+
+app.post('/delete-fridge', async (req, res) => {
+  try {
+    const { fridge_id } = req.body;
+    const result = await client.query("DELETE FROM fridge WHERE fridge_id = $1", [fridge_id]);
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+  } catch (err) {
+    console.error('Error deleting fridge:', err.stack);
+    res.status(500).send('Error deleting fridge');
+  }
+});
+
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
