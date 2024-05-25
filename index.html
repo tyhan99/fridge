@@ -267,7 +267,61 @@
     $(document).ready(fetchUserIDs);
     $(document).ready(fetchFridgeIDs);
     console.log("fetchUserIDs and fetchFridgeIDs preloaded");
-  
+
+//new code 25/5
+
+$(document).ready(function() {
+    // Existing code to fetch user and fridge IDs
+    fetchUserIDs();
+    fetchFridgeIDs();
+
+    // Show visual cues for new user and fridge additions
+    $('#add-user-form').submit(function(event) {
+      event.preventDefault();
+      var form = $(this);
+      var userAddedCue = document.getElementById("user-added-cue");
+
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function() {
+          userAddedCue.style.visibility = "visible";
+          setTimeout(function() {
+            userAddedCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+          console.log("Fetching updated user list...");
+          fetchUserIDs(); // Reload user list to include the new user
+        }
+      });
+    });
+
+    $('#add-fridge-form').submit(function(event) {
+      event.preventDefault();
+      var form = $(this);
+      var fridgeAddedCue = document.getElementById("fridge-added-cue");
+
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function() {
+          fridgeAddedCue.style.visibility = "visible";
+          setTimeout(function() {
+            fridgeAddedCue.style.visibility = "hidden";
+          }, 3000); // Hide after 3 seconds
+          console.log("Fetching updated fridge list...");
+          fetchFridgeIDs(); // Reload fridge list to include the new fridge
+        }
+      });
+    });
+  });
+
+    
+
+
+// new code 25/5 ends
+
     function fetchFoodData(fridgeID) {
       fetch('/food-data?fridge_id=' + fridgeID)
         .then(response => response.json())
