@@ -50,13 +50,14 @@
       <h3>Choose a fridge below:</h3>
       <select id="fridge-list"></select>
       <div id="fridge-selection-cue" class="fridge-selection-cue"></div>
+      <button id="delete-fridge" style="display: none;">Delete Fridge</button>
+      <div id="fridge-deleted-cue" class="success-cue">Fridge successfully deleted! Please select a new fridge.</div>
       <p><br>or add a new fridge:</p>
       <form id="add-fridge-form" action="/addfridge" method="post">
         <input type="text" name="fridge_name" placeholder="Enter the name to identify the fridge">
         <input type="number" name="selectedUserID" hidden>
         <button class="plan-button" type="submit">Add</button>
       </form>
-      <button id="delete-fridge" style="display: none;">Delete Fridge</button>
       <div id="fridge-added-cue" class="success-cue">Fridge added successfully! Please REFRESH (F5) your browser now.</div>
     </div>
   </div>
@@ -562,6 +563,7 @@
   
     $('#delete-fridge').click(function() {
       if (confirm('Are you sure you want to delete this fridge?')) {
+        var selectedFridgeName = $("#fridge-list option:selected").text();
         $.ajax({
           url: '/delete-fridge',
           type: 'POST',
@@ -569,7 +571,14 @@
           contentType: 'application/json',
           success: function(data) {
             console.log('Fridge deleted:', data);
-            location.reload(); // Reload the page to update the fridge list
+            var fridgeDeletedCue = document.getElementById("fridge-deleted-cue");
+            fridgeDeletedCue.textContent = "Fridge '" + selectedFridgeName + "' successfully deleted!";
+            fridgeDeletedCue.style.visibility = "visible";
+            setTimeout(function() {
+              fridgeDeletedCue.style.visibility = "hidden";
+            }, 3000); // Hide after 3 seconds
+            document.getElementById("card3").style.display = "none";
+            fetchFridgeIDs();
           },
           error: function(error) {
             console.error('Error deleting fridge:', error);
