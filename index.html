@@ -333,13 +333,6 @@
               row.classList.add('expired');
             }
           }
-          // Hide Delete Fridge button if there are food items
-          if (data.length > 0) {
-            document.getElementById("delete-fridge").style.display = "none";
-          } else {
-            document.getElementById("card3").style.display = "none";
-            document.getElementById("delete-fridge").style.display = "block";
-          }
         })
         .catch(err => console.error('Error fetching food data:', err));
     }
@@ -401,8 +394,6 @@
             $('#expiry-date').val('');
             $('#note').val('');
             $('#discard').prop('checked', false);
-            // Hide the delete fridge button
-            document.getElementById("delete-fridge").style.display = "none";
           },
           error: function(error) {
             console.error('Error adding food item:', error);
@@ -482,8 +473,6 @@
             console.log('Success:', data);
             fetchFoodData(selectedFridgeID);
             editModal.style.display = "none";
-            // Check if fridge is empty and show/hide the delete fridge button
-            checkFridgeEmpty(selectedFridgeID);
           },
           error: function(error) {
             console.error('Error editing food item:', error);
@@ -521,8 +510,6 @@
               console.log('Success:', data);
               fetchFoodData(selectedFridgeID);
               deleteModal.style.display = "none";
-              // Check if fridge is empty and show/hide the delete fridge button
-              checkFridgeEmpty(selectedFridgeID);
             },
             error: function(error) {
               console.error('Error deleting food item:', error);
