@@ -179,7 +179,7 @@
     var selectedUserID;
     var selectedFridgeID;
   
-    function fetchUserIDs() {
+    function fetchUserIDs(selectedUser) {
       var userList = document.getElementById("user-list");
       var userSelectionCue = document.getElementById("user-selection-cue");
   
@@ -195,6 +195,9 @@
                 optionItem.textContent = data[i].user_id;
                 optionItem.value = data[i].uid;
                 userList.appendChild(optionItem);
+              }
+              if (selectedUser) {
+                userList.value = selectedUser;
               }
               userList.dispatchEvent(new Event('change')); // Manually trigger change event
             })
@@ -219,7 +222,7 @@
       });
     }
   
-    function fetchFridgeIDs() {
+    function fetchFridgeIDs(selectedFridge) {
       var fridgeList = document.getElementById("fridge-list");
       var fridgeSelectionCue = document.getElementById("fridge-selection-cue");
       var fridgeContentHeader = document.getElementById("fridge-content-header");
@@ -236,6 +239,9 @@
                 optionItem.textContent = data[i].fridge_name;
                 optionItem.value = data[i].fridge_id;
                 fridgeList.appendChild(optionItem);
+              }
+              if (selectedFridge) {
+                fridgeList.value = selectedFridge;
               }
               fridgeList.dispatchEvent(new Event('change')); // Manually trigger change event
             })
@@ -282,60 +288,51 @@
         .catch(err => console.error('Error checking fridge contents:', err));
     }
   
-    $(document).ready(fetchUserIDs);
-    $(document).ready(fetchFridgeIDs);
-    console.log("fetchUserIDs and fetchFridgeIDs preloaded");
-  
-    function fetchFoodData(fridgeID) {
-      fetch('/food-data?fridge_id=' + fridgeID)
-        .then(response => response.json())
-        .then(data => {
-          var foodTable = document.getElementById("food-table").getElementsByTagName('tbody')[0];
-          foodTable.innerHTML = ""; // Clear existing content
-  
-          // Add a counter variable, for use as S/N
-          var counter = 1;
-          var currentDate = new Date();
-  
-          for (var i = 0; i < data.length; i++) {
-            var row = foodTable.insertRow();
-            var selectCell = row.insertCell();
-            var radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = 'food-item';
-            radio.value = data[i].food_id;
-            selectCell.appendChild(radio);
-            row.insertCell().textContent = counter++;
-            row.insertCell().textContent = data[i].food_name;
-            row.insertCell().textContent = data[i].qty;
-            row.insertCell().textContent = data[i].compartment; // Insert compartment data
-  
-            // Format the expiry_date string
-            var expiryDate = new Date(data[i].expiry_date);
-            row.insertCell().textContent = expiryDate.toISOString().split('T')[0];
-  
-            row.insertCell().textContent = data[i].note;
-            row.insertCell().textContent = data[i].owner; // Owner data
-            row.insertCell().textContent = data[i].discard ? 'Yes' : 'No';
-  
-            // Apply expired class if food item is expired
-            if (expiryDate < currentDate) {
-              row.classList.add('expired');
-            }
-          }
-          // Hide Delete Fridge button if there are food items
-          if (data.length > 0) {
-            document.getElementById("delete-fridge").style.display = "none";
-          }
-        })
-        .catch(err => console.error('Error fetching food data:', err));
-    }
-  
-    function updateUIDValue() {
-      document.getElementsByName('selectedUserID')[0].value = selectedUserID;
-    }
-  
     $(document).ready(function() {
+      fetchUserIDs();
+      fetchFridgeIDs();
+      console.log("fetchUserIDs and fetchFridgeIDs preloaded");
+
+      $('#add-user-form').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        var userAddedCue = document.getElementById("user-added-cue");
+    
+        $.ajax({
+          type: form.attr('method'),
+          url: form.attr('action'),
+          data: form.serialize(),
+          success: function() {
+            userAddedCue.style.visibility = "visible";
+            setTimeout(function() {
+              userAddedCue.style.visibility = "hidden";
+            }, 3000); // Hide after 3 seconds
+            console.log("Fetching updated user list...");
+            fetchUserIDs(selectedUserID); // Reload user list to include the new user
+          }
+        });
+      });
+    
+      $('#add-fridge-form').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        var fridgeAddedCue = document.getElementById("fridge-added-cue");
+    
+        $.ajax({
+          type: form.attr('method'),
+          url: form.attr('action'),
+          data: form.serialize(),
+          success: function() {
+            fridgeAddedCue.style.visibility = "visible";
+            setTimeout(function() {
+              fridgeAddedCue.style.visibility = "hidden";
+            }, 3000); // Hide after 3 seconds
+            console.log("Fetching updated fridge list...");
+            fetchFridgeIDs(selectedFridgeID); // Reload fridge list to include the new fridge
+          }
+        });
+      });
+
       // Add food modal function
       var modal = document.getElementById("addFoodModal");
       var btn = document.getElementById("add-new");
