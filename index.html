@@ -13,6 +13,16 @@
 
     gtag('config', 'G-9LYYYZ9ZDD');
   </script>
+  <style>
+    #delete-fridge {
+      display: none;
+      margin: 10px auto;
+      text-align: center;
+    }
+    #card2 {
+      height: 50%;
+    }
+  </style>
 </head>
 <body>
   <div class="navbar">
@@ -46,7 +56,7 @@
   </div>
 
   <div class="grid-container">
-    <div id="card2" class="card" style="display: none;">
+    <div id="card2" class="card" style="display: none; height: 50%;">
       <h3>Choose a fridge below:</h3>
       <select id="fridge-list"></select>
       <div id="fridge-selection-cue" class="fridge-selection-cue"></div>
@@ -323,6 +333,10 @@
               row.classList.add('expired');
             }
           }
+          // Hide Delete Fridge button if there are food items
+          if (data.length > 0) {
+            document.getElementById("delete-fridge").style.display = "none";
+          }
         })
         .catch(err => console.error('Error fetching food data:', err));
     }
@@ -384,6 +398,8 @@
             $('#expiry-date').val('');
             $('#note').val('');
             $('#discard').prop('checked', false);
+            // Hide the delete fridge button
+            document.getElementById("delete-fridge").style.display = "none";
           },
           error: function(error) {
             console.error('Error adding food item:', error);
@@ -463,6 +479,8 @@
             console.log('Success:', data);
             fetchFoodData(selectedFridgeID);
             editModal.style.display = "none";
+            // Check if fridge is empty and show/hide the delete fridge button
+            checkFridgeEmpty(selectedFridgeID);
           },
           error: function(error) {
             console.error('Error editing food item:', error);
@@ -500,6 +518,8 @@
               console.log('Success:', data);
               fetchFoodData(selectedFridgeID);
               deleteModal.style.display = "none";
+              // Check if fridge is empty and show/hide the delete fridge button
+              checkFridgeEmpty(selectedFridgeID);
             },
             error: function(error) {
               console.error('Error deleting food item:', error);
