@@ -64,6 +64,10 @@ body {
   min-height: 250px; /* Adjust height as needed */
 }
 
+#card2 {
+  height: 33%;
+}
+
 /* Welcome card styles */
 .welcome_card {
   width: 100%;

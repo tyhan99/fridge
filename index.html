@@ -20,7 +20,7 @@
       text-align: center;
     }
     #card2 {
-      height: 50%;
+      height: 33%;
     }
   </style>
 </head>
@@ -56,7 +56,7 @@
   </div>
 
   <div class="grid-container">
-    <div id="card2" class="card" style="display: none; height: 50%;">
+    <div id="card2" class="card" style="display: none;">
       <h3>Choose a fridge below:</h3>
       <select id="fridge-list"></select>
       <div id="fridge-selection-cue" class="fridge-selection-cue"></div>
@@ -336,6 +336,9 @@
           // Hide Delete Fridge button if there are food items
           if (data.length > 0) {
             document.getElementById("delete-fridge").style.display = "none";
+          } else {
+            document.getElementById("card3").style.display = "none";
+            document.getElementById("delete-fridge").style.display = "block";
           }
         })
         .catch(err => console.error('Error fetching food data:', err));
@@ -598,6 +601,8 @@
               fridgeDeletedCue.style.visibility = "hidden";
             }, 3000); // Hide after 3 seconds
             document.getElementById("card3").style.display = "none";
+            $('#fridge-list').val(''); // Reset fridge selection
+            $('#fridge-list').empty(); // Clear the fridge list
             fetchFridgeIDs();
           },
           error: function(error) {
