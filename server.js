@@ -4,7 +4,7 @@ require("dotenv").config();
 // Web framework within Node.js
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5432; // Use environment variable for port
+const port = process.env.PORT || 8080; // Use environment variable for port
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -40,6 +40,11 @@ app.get('/', function(req, res) {
 // About page
 app.get('/about', function(req, res) {
   res.sendFile(__dirname + '/about.html');
+});
+
+// Contact page
+app.get('/contact', function(req, res) {
+  res.sendFile(__dirname + '/contact.html');
 });
 
 // For getting existing list of users from database
