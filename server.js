@@ -1,10 +1,8 @@
-// from 1.23
 // Needed for dotenv to work
 require("dotenv").config();
 
+// Web framework within Node.js
 const express = require('express');
-const { Client } = require('pg'); // Postgres client library
-
 const app = express();
 const port = process.env.PORT || 5432; // Use environment variable for port
 
@@ -20,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Database connection details
+const { Client } = require('pg'); // Postgres client library
 const url = process.env.DATABASE_URL;
 
 const client = new Client({
@@ -43,6 +42,7 @@ app.get('/about', function(req, res) {
   res.sendFile(__dirname + '/about.html');
 });
 
+// For getting existing list of users from database
 app.get('/user-ids', async (req, res) => {
   try {
     const sql1 = 'SELECT uid, user_id FROM users';
@@ -57,6 +57,20 @@ app.get('/user-ids', async (req, res) => {
   }
 });
 
+// For adding new user to databse
+app.post('/adduser', async (req, res) => {
+  try {
+    const { user_id, email } = req.body;
+    const result = await client.query("INSERT INTO users(user_id, email) VALUES ($1, $2)", [user_id, email]); 
+    console.log(result); // Debugging
+  } catch (err) {
+    console.error('Error adding new user:', err.stack);
+    res.status(500).send('Error adding new user');
+  }
+  res.redirect('/');
+});
+
+// For getting existing list of fridge from database
 app.get('/fridge-ids', async (req, res) => {
   try {
     const sql2 = 'SELECT fridge_id, fridge_name FROM fridge';
@@ -71,18 +85,7 @@ app.get('/fridge-ids', async (req, res) => {
   }
 });
 
-app.post('/adduser', async (req, res) => {
-  try {
-    const { user_id, email } = req.body;
-    const result = await client.query("INSERT INTO users(user_id, email) VALUES ($1, $2)", [user_id, email]); 
-    console.log(result); // Debugging
-  } catch (err) {
-    console.error('Error adding new user:', err.stack);
-    res.status(500).send('Error adding new user');
-  }
-  res.redirect('/');
-});
-
+// For adding new fridge to database
 app.post('/addfridge', async (req, res) => {
   try {
     const { fridge_name, selectedUserID } = req.body;
@@ -95,19 +98,7 @@ app.post('/addfridge', async (req, res) => {
   res.redirect('/');
 });
 
-app.post('/delete-food', async (req, res) => {
-  try {
-    const { food_id } = req.body;
-    const result = await client.query("DELETE FROM food WHERE food_id = $1", [food_id]); 
-    console.log(result); // Debugging
-    res.json({ status: 'success' });
-  } catch (err) {
-    console.error('Error deleting food item:', err.stack);
-    res.status(500).send('Error deleting food item');
-  }
-});
-
-// Fetch food data
+// For getting existing food data from database
 app.get('/food-data', async (req, res) => {
   try {
     const fridge_id = req.query.fridge_id;
@@ -140,7 +131,7 @@ app.get('/food-data', async (req, res) => {
   }
 });
 
-// Add new food item
+// For adding new food item to database
 app.post('/add-food', async (req, res) => {
   try {
     const { food_name, qty, compartment, expiry_date, note, discard, fridge_id, owner } = req.body;
@@ -153,7 +144,7 @@ app.post('/add-food', async (req, res) => {
   }
 });
 
-// Edit existing food item
+// For editing existing food item and updating in database
 app.post('/edit-food', async (req, res) => {
   try {
     const { food_name, qty, compartment, expiry_date, note, discard, food_id, owner } = req.body;
@@ -167,8 +158,21 @@ app.post('/edit-food', async (req, res) => {
   }
 });
 
-// added 25/5
+// For deleting existing food item from database
+app.post('/delete-food', async (req, res) => {
+  try {
+    const { food_id } = req.body;
+    const result = await client.query("DELETE FROM food WHERE food_id = $1", [food_id]); 
+    console.log(result); // Debugging
+    res.json({ status: 'success' });
+  } catch (err) {
+    console.error('Error deleting food item:', err.stack);
+    res.status(500).send('Error deleting food item');
+  }
+});
 
+// added 25/5
+// For deleting a fridge from database
 app.post('/delete-fridge', async (req, res) => {
   try {
     const { fridge_id } = req.body;
@@ -181,5 +185,5 @@ app.post('/delete-fridge', async (req, res) => {
   }
 });
 
-
+// port for HTTP server created by Express
 app.listen(port, () => console.log(`Server listening on port ${port}`));
